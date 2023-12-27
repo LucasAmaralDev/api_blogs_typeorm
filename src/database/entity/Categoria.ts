@@ -15,13 +15,13 @@ export class Categoria {
     @Column()
     usuarioCriacao: string
 
-    @Column()
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     dataCriacao: Date
 
-    @Column()
+    @Column({ nullable: true})
     usuarioAlteracao: string
 
-    @Column()
+    @Column({ type: 'timestamp', nullable: true})
     dataAlteracao: Date
 
 }
