@@ -88,8 +88,6 @@ export class PostController {
             const subtitulo = (req.query.subtitulo || '') as string;
             const conteudo = (req.query.conteudo || '') as string;
 
-            // o where deve pesquisar por titulo, subtitulo e conteudo que contenham os termos passados usando like
-
             const posts = await repoPost.find({
                 order: { id: 'DESC' },
                 where: {
@@ -101,7 +99,24 @@ export class PostController {
                 skip: postsPerPage * (page - 1)
             })
 
-            return res.status(200).json(posts);
+            //contar total de registros
+            const total = await repoPost.count({
+                where: {
+                    titulo: ILike(`%${titulo}%`),
+                    subtitulo: ILike(`%${subtitulo}%`),
+                    conteudo: ILike(`%${conteudo}%`)
+                }
+            });
+
+            const totalPages = Math.ceil(total / postsPerPage);
+
+            const response = {
+                posts,
+                total,
+                totalPages
+            }
+
+            return res.status(200).json(response);
 
         } catch (error) {
 
