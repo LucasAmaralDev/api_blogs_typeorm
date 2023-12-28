@@ -68,7 +68,17 @@ export class PostController {
                 skip: postsPerPage * (page - 1)
             });
 
-            return res.status(200).json(posts);
+            const total = await repoPost.count();
+
+            const totalPages = Math.ceil(total / postsPerPage);
+
+            const response = {
+                posts,
+                total,
+                totalPages
+            }
+
+            return res.status(200).json(response);
 
         } catch (error) {
             return res.status(500).json({
@@ -124,9 +134,43 @@ export class PostController {
                 message: 'Erro ao listar posts',
                 error
             });
-
         }
+    }
 
+    async ultimasNoticias(req: Request, res: Response) {
+
+        try {
+            const postsPerPage = (req.query.postsPerPage || 10) as number;
+            const page = (req.query.page || 1) as number;
+
+            const posts = await repoPost.find({
+                order: { 
+                    id: 'DESC',
+                    destaqueOrdem: 'DESC' 
+            },
+                take: postsPerPage,
+                skip: postsPerPage * (page - 1)
+            })
+
+            const total = await repoPost.count();
+
+            const totalPages = Math.ceil(total / postsPerPage);
+
+            const response = {
+                posts,
+                total,
+                totalPages
+            }
+
+            return res.status(200).json(response);
+
+        } catch (error) {
+
+            return res.status(500).json({
+                message: 'Erro ao listar posts',
+                error
+            });
+        }
 
     }
 
