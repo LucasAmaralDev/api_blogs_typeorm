@@ -6,7 +6,7 @@ export class Categoria {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ unique: true })
     titulo: string
 
     @Column()

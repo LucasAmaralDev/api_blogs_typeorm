@@ -13,6 +13,14 @@ export class CategoriaController {
 
             const categoria = new Categoria();
 
+            const categoriaExists = await repoCategoria.findOne({
+                where: { titulo: titulo }
+            });
+
+            if (categoriaExists) {
+                throw new Error('Categoria já existe');
+            }
+
             categoria.titulo = titulo;
             categoria.subtitulo = subtitulo;
             categoria.usuarioCriacao = usuarioCriacao;
@@ -28,7 +36,7 @@ export class CategoriaController {
 
             return response.status(500).json({
                 message: 'Erro ao criar categoria',
-                error
+                error: error.message
             });
         }
     }
@@ -43,9 +51,11 @@ export class CategoriaController {
 
         } catch (error) {
 
+            
+
             return response.status(500).json({
                 message: 'Erro ao listar categorias',
-                error
+                error: error.message
             });
         }
     }
