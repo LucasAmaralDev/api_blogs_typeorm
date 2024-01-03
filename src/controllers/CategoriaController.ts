@@ -59,4 +59,103 @@ export class CategoriaController {
             });
         }
     }
+
+    async findById(request: Request, response: Response) {
+
+        try {
+
+            const { id } = request.params;
+
+            const categoria = await repoCategoria.findOne({
+                where: { id: Number(id) }
+            });
+
+            return response.status(200).json(categoria);
+
+        } catch (error) {
+
+            
+
+            return response.status(500).json({
+                message: 'Erro ao listar categoria',
+                error: error.message
+            });
+        }
+
+    }
+
+    async update(request: Request, response: Response) {
+
+        try {
+
+            const { id } = request.params;
+
+            const { titulo, subtitulo, usuarioAlteracao, dataAlteracao } = request.body;
+
+            if (!titulo && !subtitulo && !usuarioAlteracao) {
+                throw new Error('Pelo menos um campo deve ser preenchido');
+            }
+
+            const categoria = await repoCategoria.findOne({
+                where: { id: Number(id) }
+            });
+
+            if (!categoria) {
+                throw new Error('Categoria não existe');
+            }
+
+            categoria.titulo = titulo;
+            categoria.subtitulo = subtitulo;
+            categoria.usuarioAlteracao = usuarioAlteracao;
+            categoria.dataAlteracao = dataAlteracao ?? new Date();
+
+            await repoCategoria.save(categoria);
+
+            return response.status(200).json({
+                message: 'Categoria atualizada com sucesso!',
+            });
+
+        } catch (error) {
+
+            
+
+            return response.status(500).json({
+                message: 'Erro ao atualizar categoria',
+                error: error.message
+            });
+        }
+
+    }
+
+    async delete(request: Request, response: Response) {
+
+        try {
+
+            const { id } = request.params;
+
+            const categoria = await repoCategoria.findOne({
+                where: { id: Number(id) }
+            });
+
+            if (!categoria) {
+                throw new Error('Categoria não existe');
+            }
+
+            await repoCategoria.delete(categoria);
+
+            return response.status(200).json({
+                message: 'Categoria deletada com sucesso!',
+            });
+
+        } catch (error) {
+
+            
+
+            return response.status(500).json({
+                message: 'Erro ao deletar categoria',
+                error: error.message
+            });
+        }
+
+    }
 }

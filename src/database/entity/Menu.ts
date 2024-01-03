@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, TreeChildren, TreeParent, Tree, OneToMany } from "typeorm"
 
 @Entity()
+@Tree("closure-table")
 export class Menu {
 
     @PrimaryGeneratedColumn()
@@ -15,10 +16,6 @@ export class Menu {
     @Column()
     principal: boolean
 
-    @ManyToOne(() => Menu, menu => menu.id, { nullable: true })
-    @JoinColumn({ name: "subMenu" })
-    subMenu: Menu;
-
     @Column()
     usuarioCriacao: string
 
@@ -31,4 +28,9 @@ export class Menu {
     @Column({ type: 'timestamp', nullable: true})
     dataAlteracao: Date
 
+    @TreeChildren()
+    subMenu: Menu[]
+
+    @TreeParent()
+    menu: Menu
 }

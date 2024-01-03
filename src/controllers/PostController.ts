@@ -68,14 +68,18 @@ export class PostController {
                 skip: postsPerPage * (page - 1)
             });
 
-            const total = await repoPost.count();
+            const totalElements = await repoPost.count();
 
-            const totalPages = Math.ceil(total / postsPerPage);
+            const totalPages = Math.ceil(totalElements / postsPerPage);
 
             const response = {
                 posts,
-                total,
-                totalPages
+                page: {
+                    size: postsPerPage,
+                    currentPage: page,
+                    totalElements: totalElements,
+                    totalPages: totalPages
+                } 
             }
 
             return res.status(200).json(response);
@@ -83,6 +87,71 @@ export class PostController {
         } catch (error) {
             return res.status(500).json({
                 message: 'Erro ao listar posts',
+                error
+            });
+        }
+    }
+
+    async findById(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+
+            const post = await repoPost.findOne({
+                where: { id: Number(id) }
+            });
+
+            if (!post) {
+                return res.status(400).json({ error: 'Post não encontrado' });
+            }
+
+            return res.status(200).json(post);
+        } catch (error) {
+            return res.status(500).json({
+                message: 'Erro ao listar post',
+                error
+            });
+        }
+    }
+
+    async update(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const { titulo, subtitulo, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia } = req.body;
+
+            if (!titulo && !subtitulo && !conteudo && !autores && !slug && !destaqueOrdem && !usuarioAlteracao) {
+                return res.status(400).json({ error: 'Pelo menos um campo deve ser preenchido' });
+            }
+
+            const post = await repoPost.findOne({
+                where: { id: Number(id) }
+            });
+
+            if (!post) {
+                return res.status(400).json({ error: 'Post não encontrado' });
+            }
+
+            post.titulo = titulo || post.titulo;
+            post.subtitulo = subtitulo || post.subtitulo;
+            post.conteudo = conteudo || post.conteudo;
+            post.autores = autores || post.autores;
+            post.categoria = categoria || post.categoria;
+            post.menu = menu || post.menu;
+            post.tags = tags || post.tags;
+            post.slug = slug || post.slug;
+            post.destaqueOrdem = destaqueOrdem || post.destaqueOrdem;
+            post.usuarioAlteracao = usuarioAlteracao;
+            post.dataAlteracao = dataAlteracao ?? new Date();
+            post.inicioVigencia = inicioVigencia || post.inicioVigencia;
+            post.fimVigencia = fimVigencia || post.fimVigencia;
+
+            await repoPost.save(post);
+
+            return res.status(200).json({
+                message: 'Post atualizado com sucesso!',
+            });
+        } catch (error) {
+            return res.status(500).json({
+                message: 'Erro ao atualizar post',
                 error
             });
         }
@@ -110,7 +179,7 @@ export class PostController {
             })
 
             //contar total de registros
-            const total = await repoPost.count({
+            const totalElements = await repoPost.count({
                 where: {
                     titulo: ILike(`%${titulo}%`),
                     subtitulo: ILike(`%${subtitulo}%`),
@@ -118,12 +187,16 @@ export class PostController {
                 }
             });
 
-            const totalPages = Math.ceil(total / postsPerPage);
+            const totalPages = Math.ceil(totalElements / postsPerPage);
 
             const response = {
                 posts,
-                total,
-                totalPages
+                page: {
+                    size: postsPerPage,
+                    currentPage: page,
+                    totalElements: totalElements,
+                    totalPages: totalPages
+                } 
             }
 
             return res.status(200).json(response);
@@ -151,15 +224,17 @@ export class PostController {
                 take: postsPerPage,
                 skip: postsPerPage * (page - 1)
             })
-
-            const total = await repoPost.count();
-
-            const totalPages = Math.ceil(total / postsPerPage);
+            const totalElements = await repoPost.count();
+            const totalPages = Math.ceil(totalElements / postsPerPage);
 
             const response = {
                 posts,
-                total,
-                totalPages
+                page: {
+                    size: postsPerPage,
+                    currentPage: page,
+                    totalElements: totalElements,
+                    totalPages: totalPages
+                } 
             }
 
             return res.status(200).json(response);
@@ -174,4 +249,28 @@ export class PostController {
 
     }
 
+    async delete(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+
+            const post = await repoPost.findOne({
+                where: { id: Number(id) }
+            });
+
+            if (!post) {
+                return res.status(400).json({ error: 'Post não encontrado' });
+            }
+
+            await repoPost.remove(post);
+
+            return res.status(200).json({
+                message: 'Post deletado com sucesso!',
+            });
+        } catch (error) {
+            return res.status(500).json({
+                message: 'Erro ao deletar post',
+                error
+            });
+        }
+    }
 }
