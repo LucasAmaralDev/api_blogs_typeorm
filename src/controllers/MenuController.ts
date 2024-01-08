@@ -20,7 +20,10 @@ export class MenuController {
             const menu = new Menu();
 
             const menuExists = await repoMenu.findOne({
-                where: { titulo: titulo }
+                where: {
+                    titulo: titulo,
+                    principal: true
+                }
             });
 
             if (menuExists) {
@@ -160,31 +163,31 @@ export class MenuController {
     }
 
     async delete(request: Request, response: Response) {
-            
-            try {
-    
-                const { id } = request.params;
-    
-                const menu = await repoMenu.findOne({
-                    where: { id: Number(id) }
-                });
-    
-                if (!menu) {
-                    return response.status(400).json({ error: 'Menu não encontrado' });
-                }
-    
-                await repoMenu.remove(menu);
-    
-                return response.status(200).json({
-                    message: 'Menu removido com sucesso!',
-                });
-    
-            } catch (error) {
-    
-                return response.status(500).json({
-                    message: 'Erro ao remover menu',
-                    error: error.message
-                });
+
+        try {
+
+            const { id } = request.params;
+
+            const menu = await repoMenu.findOne({
+                where: { id: Number(id) }
+            });
+
+            if (!menu) {
+                return response.status(400).json({ error: 'Menu não encontrado' });
             }
+
+            await repoMenu.remove(menu);
+
+            return response.status(200).json({
+                message: 'Menu removido com sucesso!',
+            });
+
+        } catch (error) {
+
+            return response.status(500).json({
+                message: 'Erro ao remover menu',
+                error: error.message
+            });
+        }
     }
 }
