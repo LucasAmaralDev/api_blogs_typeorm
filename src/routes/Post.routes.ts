@@ -8,6 +8,7 @@ const routerPost = Router();
 routerPost.get("/post/list", postController.list);
 routerPost.get("/post/search", postController.search);
 routerPost.get("/post/ultimas-noticias", postController.ultimasNoticias);
+routerPost.get("/post/slug/:slug", postController.findBySlug);
 
 
 // CMS
