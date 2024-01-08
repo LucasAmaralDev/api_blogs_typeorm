@@ -42,9 +42,7 @@ export class PostController {
             console.log(repoPost)
 
             await repoPost.save(post);
-            return res.status(201).json({
-                message: 'Post criado com sucesso!',
-            });
+            return res.status(201).json(post);
         } catch (error) {
 
             console.log(error)
@@ -63,7 +61,7 @@ export class PostController {
             const page = (req.query.page || 1) as number;
 
             const posts = await repoPost.find({
-                order: { id: 'DESC' },
+                order: { dataCriacao: 'DESC' },
                 take: postsPerPage,
                 skip: postsPerPage * (page - 1)
             });
@@ -146,9 +144,7 @@ export class PostController {
 
             await repoPost.save(post);
 
-            return res.status(200).json({
-                message: 'Post atualizado com sucesso!',
-            });
+            return res.status(200).json(post);
         } catch (error) {
             return res.status(500).json({
                 message: 'Erro ao atualizar post',
@@ -168,7 +164,7 @@ export class PostController {
             const conteudo = (req.query.conteudo || '') as string;
 
             const posts = await repoPost.find({
-                order: { id: 'DESC' },
+                order: { dataCriacao: 'DESC' },
                 where: {
                     titulo: ILike(`%${titulo}%`),
                     subtitulo: ILike(`%${subtitulo}%`),
@@ -218,8 +214,8 @@ export class PostController {
 
             const posts = await repoPost.find({
                 order: { 
-                    id: 'DESC',
-                    destaqueOrdem: 'DESC' 
+                    destaqueOrdem: 'DESC',
+                    dataAlteracao: "DESC" 
             },
                 take: postsPerPage,
                 skip: postsPerPage * (page - 1)
