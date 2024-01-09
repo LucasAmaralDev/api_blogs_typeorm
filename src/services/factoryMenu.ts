@@ -1,3 +1,4 @@
+
 export function limparObjeto(objeto) {
 
     if (objeto['subMenu']) {
@@ -29,11 +30,27 @@ export function ordenarObjeto(objeto) {
             return ordenarObjeto(subMenu);
         });
     }
-    
+
     objeto.sort((a, b) =>
         a.destaqueOrdem - b.destaqueOrdem
     )
 
     return objeto;
 
+}
+
+
+
+export function factoryLimparMenuEOrdenar(objeto) {
+
+    const objetoATratar = objeto
+
+    for (let item in objetoATratar) {
+        objetoATratar[item] = limparObjeto(objetoATratar[item]);
+    }
+
+
+    const objetoFinal = ordenarObjeto(objetoATratar)
+
+    return objetoFinal
 }
