@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import { Menu } from "../database/entity/Menu";
 import { Repository } from "typeorm";
+import { limparObjeto, ordenarObjeto } from "../services/limparObjeto";
 
 
 const repoMenu = AppDataSource.getRepository(Menu);
@@ -107,14 +108,10 @@ export class MenuController {
 
             const trees = await AppDataSource.manager.getTreeRepository(Menu).findTrees();
 
-            const treesSorted = trees.sort((a, b) => a.destaqueOrdem - b.destaqueOrdem)
+            const treesSorted = ordenarObjeto(trees);
 
-            for (let i = 0; i < treesSorted.length; i++) {
-
-                if (treesSorted[i].subMenu.length > 0) {
-                    treesSorted[i].subMenu.sort((a, b) => a.destaqueOrdem - b.destaqueOrdem)
-                }
-
+            for (let item in treesSorted) {
+                treesSorted[item] = limparObjeto(treesSorted[item]);
             }
 
             return response.status(200).json(trees);
