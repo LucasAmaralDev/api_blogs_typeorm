@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import { Menu } from "../database/entity/Menu";
+import { Repository } from "typeorm";
 
 
 const repoMenu = AppDataSource.getRepository(Menu);
@@ -103,9 +104,21 @@ export class MenuController {
     async getTree(request: Request, response: Response) {
 
         try {
+
             const trees = await AppDataSource.manager.getTreeRepository(Menu).findTrees();
 
+            const treesSorted = trees.sort((a, b) => a.destaqueOrdem - b.destaqueOrdem)
+
+            for (let i = 0; i < treesSorted.length; i++) {
+
+                if (treesSorted[i].subMenu.length > 0) {
+                    treesSorted[i].subMenu.sort((a, b) => a.destaqueOrdem - b.destaqueOrdem)
+                }
+
+            }
+
             return response.status(200).json(trees);
+
         } catch (error) {
             console.error("Erro ao processar a solicitação:", error);
             return response.status(500).json({ error: "Erro interno do servidor" });

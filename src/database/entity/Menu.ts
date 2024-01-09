@@ -16,6 +16,9 @@ export class Menu {
     @Column()
     principal: boolean
 
+    @Column({ nullable: true })
+    destaqueOrdem: number
+
     @Column()
     usuarioCriacao: string
 
