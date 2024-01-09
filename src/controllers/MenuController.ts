@@ -12,9 +12,9 @@ export class MenuController {
 
         try {
 
-            const { titulo, subtitulo, principal, subMenu, usuarioCriacao, dataCriacao } = request.body;
+            const { titulo, subtitulo, principal, subMenu, usuarioCriacao, dataCriacao, destaqueOrdem } = request.body;
 
-            if (!titulo || !subtitulo || principal == undefined || !usuarioCriacao) {
+            if (!titulo || !subtitulo || principal == undefined || !usuarioCriacao || destaqueOrdem) {
                 return response.status(400).json({ error: 'Todos os campos são obrigatórios' });
             }
 
@@ -36,6 +36,7 @@ export class MenuController {
             menu.principal = principal;
             menu.usuarioCriacao = usuarioCriacao;
             menu.dataCriacao = dataCriacao ?? new Date();
+            menu.destaqueOrdem = destaqueOrdem;
 
             if (subMenu) {
                 const subMenuExists = await repoMenu.findOne({
@@ -121,9 +122,9 @@ export class MenuController {
 
             const { id } = request.params;
 
-            const { titulo, subtitulo, principal, subMenu, usuarioAlteracao, dataAlteracao } = request.body;
+            const { titulo, subtitulo, principal, subMenu, usuarioAlteracao, dataAlteracao, destaqueOrdem } = request.body;
 
-            if (!titulo && !subtitulo && principal == undefined && !usuarioAlteracao) {
+            if (!titulo && !subtitulo && principal == undefined && !usuarioAlteracao && !destaqueOrdem) {
                 return response.status(400).json({ error: 'Pelo menos um campo deve ser preenchido' });
             }
 
@@ -140,6 +141,7 @@ export class MenuController {
             menu.principal = principal ?? menu.principal;
             menu.usuarioAlteracao = usuarioAlteracao || menu.usuarioAlteracao;
             menu.dataAlteracao = dataAlteracao ?? new Date();
+            menu.destaqueOrdem = destaqueOrdem || menu.destaqueOrdem;
 
             if (subMenu) {
                 const subMenuExists = await repoMenu.findOne({
