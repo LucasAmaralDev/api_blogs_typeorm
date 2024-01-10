@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import { Menu } from "../database/entity/Menu";
-import { Repository } from "typeorm";
-import { limparObjeto, ordenarObjeto } from "../services/limparObjeto";
+import { factoryLimparMenuEOrdenar } from "../services/factoryMenu";
 
 
 const repoMenu = AppDataSource.getRepository(Menu);
@@ -13,9 +12,9 @@ export class MenuController {
 
         try {
 
-            const { titulo, subtitulo, principal, subMenu, usuarioCriacao, dataCriacao } = request.body;
+            const { titulo, subtitulo, principal, subMenu, usuarioCriacao, dataCriacao, destaqueOrdem } = request.body;
 
-            if (!titulo || !subtitulo || principal == undefined || !usuarioCriacao) {
+            if (!titulo || !subtitulo || principal == undefined || !usuarioCriacao || destaqueOrdem) {
                 return response.status(400).json({ error: 'Todos os campos são obrigatórios' });
             }
 
@@ -37,6 +36,7 @@ export class MenuController {
             menu.principal = principal;
             menu.usuarioCriacao = usuarioCriacao;
             menu.dataCriacao = dataCriacao ?? new Date();
+            menu.destaqueOrdem = destaqueOrdem;
 
             if (subMenu) {
                 const subMenuExists = await repoMenu.findOne({
@@ -105,16 +105,9 @@ export class MenuController {
     async getTree(request: Request, response: Response) {
 
         try {
-
-            const trees = await AppDataSource.manager.getTreeRepository(Menu).findTrees();
-
-            const treesSorted = ordenarObjeto(trees);
-
-            for (let item in treesSorted) {
-                treesSorted[item] = limparObjeto(treesSorted[item]);
-            }
-
-            return response.status(200).json(trees);
+            const arvore = await AppDataSource.manager.getTreeRepository(Menu).findTrees();
+            const arvoreTratada = factoryLimparMenuEOrdenar(arvore)
+            return response.status(200).json(arvoreTratada);
 
         } catch (error) {
             console.error("Erro ao processar a solicitação:", error);
@@ -129,9 +122,9 @@ export class MenuController {
 
             const { id } = request.params;
 
-            const { titulo, subtitulo, principal, subMenu, usuarioAlteracao, dataAlteracao } = request.body;
+            const { titulo, subtitulo, principal, subMenu, usuarioAlteracao, dataAlteracao, destaqueOrdem } = request.body;
 
-            if (!titulo && !subtitulo && principal == undefined && !usuarioAlteracao) {
+            if (!titulo && !subtitulo && principal == undefined && !usuarioAlteracao && !destaqueOrdem) {
                 return response.status(400).json({ error: 'Pelo menos um campo deve ser preenchido' });
             }
 
@@ -148,6 +141,7 @@ export class MenuController {
             menu.principal = principal ?? menu.principal;
             menu.usuarioAlteracao = usuarioAlteracao || menu.usuarioAlteracao;
             menu.dataAlteracao = dataAlteracao ?? new Date();
+            menu.destaqueOrdem = destaqueOrdem || menu.destaqueOrdem;
 
             if (subMenu) {
                 const subMenuExists = await repoMenu.findOne({
