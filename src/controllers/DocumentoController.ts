@@ -1,4 +1,3 @@
-//import { Request, Response } from "express";
 import { MinioService } from "../services/minio.service";
 
 export class DocumentoController {

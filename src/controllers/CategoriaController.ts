@@ -28,9 +28,7 @@ export class CategoriaController {
 
             await repoCategoria.save(categoria);
 
-            return response.status(201).json({
-                message: 'Categoria criada com sucesso!',
-            });
+            return response.status(201).json(categoria);
 
         } catch (error) {
 

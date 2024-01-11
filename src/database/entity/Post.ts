@@ -14,6 +14,12 @@ export class Post {
     @Column()
     subtitulo: string
 
+    @Column({ nullable: true })
+    urlImagemPrincipal: string
+
+    @Column({ nullable: true })
+    altUrlImagemPrincipal: string
+
     @Column()
     conteudo: string
 

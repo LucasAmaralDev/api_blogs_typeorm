@@ -10,7 +10,7 @@ export class PostController {
 
     async create(req: Request, res: Response) {
         try {
-            const { titulo, subtitulo, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioCriacao, dataCriacao, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia } = req.body;
+            const { titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioCriacao, dataCriacao, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia } = req.body;
 
             console.log(req.body)
 
@@ -22,6 +22,8 @@ export class PostController {
             const post = new Post();
             post.titulo = titulo;
             post.subtitulo = subtitulo;
+            post.urlImagemPrincipal = urlImagemPrincipal;
+            post.altUrlImagemPrincipal = altUrlImagemPrincipal;
             post.conteudo = conteudo;
             post.autores = autores;
             post.categoria = categoria ?? null;
@@ -35,11 +37,6 @@ export class PostController {
             post.dataAlteracao = dataAlteracao || null;
             post.inicioVigencia = inicioVigencia || new Date();
             post.fimVigencia = fimVigencia ?? null;
-
-
-            console.log(post)
-
-            console.log(repoPost)
 
             await repoPost.save(post);
             return res.status(201).json(post);
@@ -275,7 +272,8 @@ export class PostController {
             const { slug } = req.params;
 
             const post = await repoPost.findOne({
-                where: { slug: slug }
+                where: { slug: slug },
+                relations: ["categoria", "menu"]
             });
 
             if (!post) {
