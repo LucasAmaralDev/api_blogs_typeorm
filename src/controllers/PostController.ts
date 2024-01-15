@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { ILike } from "typeorm";
+import { ILike, Not } from "typeorm";
 import { AppDataSource } from "../database/data-source";
 import { Post } from "../database/entity/Post";
+import { CamposAusentes } from "../services/ToolPosts.service";
 
 const repoPost = AppDataSource.getRepository(Post);
 
@@ -9,13 +10,14 @@ export class PostController {
 
     async create(req: Request, res: Response) {
         try {
-            const { titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioCriacao, dataCriacao, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia } = req.body;
+            const { titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioCriacao, dataCriacao, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia, anexo, status } = req.body;
 
             console.log(req.body)
 
-            if (!titulo || !subtitulo || !conteudo || !autores || !slug || !destaqueOrdem || !usuarioCriacao) {
+            if (!titulo || !subtitulo || !conteudo || !autores || !slug || !destaqueOrdem || !usuarioCriacao || !status) {
+                const camposAusentes = CamposAusentes({titulo, subtitulo, conteudo, autores, slug, destaqueOrdem, usuarioCriacao, status});
                 console.log(titulo, subtitulo, conteudo, autores, slug, destaqueOrdem, usuarioCriacao)
-                return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+                return res.status(400).json({ error: 'Campos Ausentes: ' + camposAusentes });
             }
 
             const post = new Post();
@@ -37,6 +39,9 @@ export class PostController {
             post.dataAlteracao = dataAlteracao || null;
             post.inicioVigencia = inicioVigencia || new Date();
             post.fimVigencia = fimVigencia ?? null;
+            post.status = status;
+            post.anexo = anexo ?? null;
+
 
             await repoPost.save(post);
             return res.status(201).json(post);
@@ -58,6 +63,7 @@ export class PostController {
             const page = (req.query.page || 1) as number;
 
             const posts = await repoPost.find({
+                where: { status: Not('INATIVO') },
                 order: { dataCriacao: 'DESC' },
                 take: postsPerPage,
                 skip: postsPerPage * (page - 1)
@@ -74,7 +80,7 @@ export class PostController {
                     currentPage: page,
                     totalElements: totalElements,
                     totalPages: totalPages
-                } 
+                }
             }
 
             return res.status(200).json(response);
@@ -92,7 +98,10 @@ export class PostController {
             const { id } = req.params;
 
             const post = await repoPost.findOne({
-                where: { id: Number(id) }
+                where: { 
+                    id: Number(id),
+                    status: Not('INATIVO')
+                }
             });
 
             if (!post) {
@@ -111,9 +120,8 @@ export class PostController {
     async update(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const { titulo, subtitulo, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia } = req.body;
-
-            if (!titulo && !subtitulo && !conteudo && !autores && !slug && !destaqueOrdem && !usuarioAlteracao) {
+            const { titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia,status, anexo } = req.body;
+            if (!titulo && !subtitulo && !conteudo && !autores && !slug && !destaqueOrdem && !usuarioAlteracao && !status && !inicioVigencia && !fimVigencia && !anexo && !urlImagemPrincipal && !altUrlImagemPrincipal && !legendaUrlImagemPrincipal && !categoria && !menu && !tags) {
                 return res.status(400).json({ error: 'Pelo menos um campo deve ser preenchido' });
             }
 
@@ -138,7 +146,12 @@ export class PostController {
             post.dataAlteracao = dataAlteracao ?? new Date();
             post.inicioVigencia = inicioVigencia || post.inicioVigencia;
             post.fimVigencia = fimVigencia || post.fimVigencia;
-
+            post.anexo = anexo || post.anexo;
+            post.urlImagemPrincipal = urlImagemPrincipal || post.urlImagemPrincipal;
+            post.altUrlImagemPrincipal = altUrlImagemPrincipal || post.altUrlImagemPrincipal;
+            post.legendaUrlImagemPrincipal = legendaUrlImagemPrincipal || post.legendaUrlImagemPrincipal;
+            post.status = status || post.status;
+            
             await repoPost.save(post);
 
             return res.status(200).json(post);
@@ -165,7 +178,8 @@ export class PostController {
                 where: {
                     titulo: ILike(`%${titulo}%`),
                     subtitulo: ILike(`%${subtitulo}%`),
-                    conteudo: ILike(`%${conteudo}%`)
+                    conteudo: ILike(`%${conteudo}%`),
+                    status: Not('INATIVO')
                 },
                 take: postsPerPage,
                 skip: postsPerPage * (page - 1)
@@ -189,7 +203,7 @@ export class PostController {
                     currentPage: page,
                     totalElements: totalElements,
                     totalPages: totalPages
-                } 
+                }
             }
 
             return res.status(200).json(response);
@@ -210,10 +224,10 @@ export class PostController {
             const page = (req.query.page || 1) as number;
 
             const posts = await repoPost.find({
-                order: { 
+                order: {
                     destaqueOrdem: 'DESC',
-                    dataAlteracao: "DESC" 
-            },
+                    dataAlteracao: "DESC"
+                },
                 take: postsPerPage,
                 skip: postsPerPage * (page - 1)
             })
@@ -227,7 +241,7 @@ export class PostController {
                     currentPage: page,
                     totalElements: totalElements,
                     totalPages: totalPages
-                } 
+                }
             }
 
             return res.status(200).json(response);
@@ -254,7 +268,7 @@ export class PostController {
                 return res.status(400).json({ error: 'Post não encontrado' });
             }
 
-            await repoPost.remove(post);
+            post.status = 'INATIVO';
 
             return res.status(200).json({
                 message: 'Post deletado com sucesso!',

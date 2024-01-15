@@ -61,6 +61,12 @@ export class Post {
     @Column({ nullable: true })
     dataAlteracao: Date
 
+    @Column({ nullable: true })
+    anexo: string
+
+    @Column({ nullable: true })
+    status: string
+
     @Column({
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
