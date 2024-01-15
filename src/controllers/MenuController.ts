@@ -11,7 +11,6 @@ export class MenuController {
     async create(request: Request, response: Response) {
 
         try {
-
             const { titulo, subtitulo, principal, subMenu, usuarioCriacao, dataCriacao, destaqueOrdem } = request.body;
 
             if (!titulo || !subtitulo || principal == undefined || !usuarioCriacao || destaqueOrdem) {

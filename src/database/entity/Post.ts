@@ -20,6 +20,9 @@ export class Post {
     @Column({ nullable: true })
     altUrlImagemPrincipal: string
 
+    @Column({ nullable: true })
+    legendaUrlImagemPrincipal: string
+
     @Column()
     conteudo: string
 

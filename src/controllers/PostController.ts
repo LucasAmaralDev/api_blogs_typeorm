@@ -7,10 +7,9 @@ const repoPost = AppDataSource.getRepository(Post);
 
 export class PostController {
 
-
     async create(req: Request, res: Response) {
         try {
-            const { titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioCriacao, dataCriacao, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia } = req.body;
+            const { titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioCriacao, dataCriacao, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia } = req.body;
 
             console.log(req.body)
 
@@ -24,6 +23,7 @@ export class PostController {
             post.subtitulo = subtitulo;
             post.urlImagemPrincipal = urlImagemPrincipal;
             post.altUrlImagemPrincipal = altUrlImagemPrincipal;
+            post.legendaUrlImagemPrincipal = legendaUrlImagemPrincipal;
             post.conteudo = conteudo;
             post.autores = autores;
             post.categoria = categoria ?? null;
