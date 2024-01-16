@@ -28,6 +28,8 @@ export class CategoriaController {
 
             await repoCategoria.save(categoria);
 
+            await AppDataSource.queryResultCache?.remove(['categorias']);
+
             return response.status(201).json(categoria);
 
         } catch (error) {
@@ -43,14 +45,15 @@ export class CategoriaController {
 
         try {
 
-            const categorias = await repoCategoria.find();
-
+            const categorias = await repoCategoria.find({
+                cache: {
+                    id: 'categorias',
+                    milliseconds: 600000
+                }
+            });
             return response.status(200).json(categorias);
 
         } catch (error) {
-
-            
-
             return response.status(500).json({
                 message: 'Erro ao listar categorias',
                 error: error.message
@@ -65,7 +68,11 @@ export class CategoriaController {
             const { id } = request.params;
 
             const categoria = await repoCategoria.findOne({
-                where: { id: Number(id) }
+                where: { id: Number(id) },
+                cache: {
+                    id: 'categoria',
+                    milliseconds: 600000
+                }
             });
 
             return response.status(200).json(categoria);
@@ -109,6 +116,8 @@ export class CategoriaController {
 
             await repoCategoria.save(categoria);
 
+            await AppDataSource.queryResultCache.remove(['categoria']);
+
             return response.status(200).json(categoria);
 
         } catch (error) {
@@ -139,14 +148,13 @@ export class CategoriaController {
 
             await repoCategoria.delete(categoria);
 
+            await AppDataSource.queryResultCache.remove(['categoria']);
+
             return response.status(200).json({
                 message: 'Categoria deletada com sucesso!',
             });
 
         } catch (error) {
-
-            
-
             return response.status(500).json({
                 message: 'Erro ao deletar categoria',
                 error: error.message

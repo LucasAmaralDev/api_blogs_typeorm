@@ -62,14 +62,9 @@ export class MenuController {
     async list(request: Request, response: Response) {
 
         try {
-
             const menus = await repoMenu.find();
-
             return response.status(200).json(menus);
-
         } catch (error) {
-
-
             return response.status(500).json({
                 message: 'Erro ao listar menus',
                 error: error.message
@@ -82,9 +77,12 @@ export class MenuController {
         try {
 
             const { id } = request.params;
-
-            const menu = await repoMenu.findOne({
-                where: { id: Number(id) }
+            const menu = await repoMenu.findOne({ 
+                where: { id: Number(id)},
+                cache: {
+                    id: 'menu',
+                    milliseconds: 600000
+                }
             });
 
             return response.status(200).json(menu);
@@ -120,9 +118,7 @@ export class MenuController {
         try {
 
             const { id } = request.params;
-
             const { titulo, subtitulo, principal, subMenu, usuarioAlteracao, dataAlteracao, destaqueOrdem } = request.body;
-
             if (!titulo && !subtitulo && principal == undefined && !usuarioAlteracao && !destaqueOrdem) {
                 return response.status(400).json({ error: 'Pelo menos um campo deve ser preenchido' });
             }
@@ -151,6 +147,8 @@ export class MenuController {
 
             await repoMenu.save(menu);
 
+            await AppDataSource.queryResultCache.remove(['menu']);
+
             return response.status(200).json(menu);
 
         } catch (error) {
@@ -178,6 +176,9 @@ export class MenuController {
             }
 
             await repoMenu.remove(menu);
+
+            await AppDataSource.queryResultCache.remove(['menu']);
+
 
             return response.status(200).json({
                 message: 'Menu removido com sucesso!',
