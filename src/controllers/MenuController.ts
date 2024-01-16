@@ -62,21 +62,13 @@ export class MenuController {
     async list(request: Request, response: Response) {
 
         try {
-            const postsPerPage = (request.query.postsPerPage || 10) as number;
-            const page = (request.query.page || 1) as number;
-
-            const [result, total] = await repoMenu.findAndCount({
-                take: postsPerPage,
-                skip: postsPerPage * (page - 1),
+            const menus = await repoMenu.find({
                 cache: {
                     id: 'menu',
                     milliseconds: 600000
                 }
             });
-            return response.status(200).json({
-                result,
-                total
-            });
+            return response.status(200).json(menus);
         } catch (error) {
             return response.status(500).json({
                 message: 'Erro ao listar menus',
@@ -84,14 +76,15 @@ export class MenuController {
             });
         }
     }
+    
 
     async findById(request: Request, response: Response) {
 
         try {
 
             const { id } = request.params;
-            const menu = await repoMenu.findOne({
-                where: { id: Number(id) },
+            const menu = await repoMenu.findOne({ 
+                where: { id: Number(id)},
                 cache: {
                     id: 'menu',
                     milliseconds: 600000
