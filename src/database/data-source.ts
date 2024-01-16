@@ -16,6 +16,9 @@ const AppDataSource = new DataSource({
     entities: [Categoria, Menu, Post],
     migrations: [],
     subscribers: [],
+    cache: {
+        duration: 60000
+    }
 })
 
 AppDataSource.initialize()

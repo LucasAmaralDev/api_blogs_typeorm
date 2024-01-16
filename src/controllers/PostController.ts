@@ -32,15 +32,17 @@ export class PostController {
             });
 
             await repoPost.save(post);
+            await AppDataSource.queryResultCache.remove(["posts"]);
             return res.status(201).json(post);
+
         } catch (error) {
 
             console.log(error)
-
             return res.status(500).json({
                 message: 'Erro ao criar post',
                 error
             });
+
         }
     }
 
@@ -54,7 +56,11 @@ export class PostController {
                 where: { status: Not('INATIVO') },
                 order: { dataCriacao: 'DESC' },
                 take: postsPerPage,
-                skip: postsPerPage * (page - 1)
+                skip: postsPerPage * (page - 1),
+                cache: {
+                    id: "posts",
+                    milliseconds: 120000
+                }
             });
 
             const totalElements = await repoPost.count();
@@ -89,6 +95,10 @@ export class PostController {
                 where: {
                     id: Number(id),
                     status: Not('INATIVO')
+                },
+                cache: {
+                    id: "posts",
+                    milliseconds: 120000
                 }
             });
 
@@ -116,6 +126,8 @@ export class PostController {
             const post = await updatePost({ id: Number(id), titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia, anexo, status });
 
             await repoPost.save(post);
+
+            await AppDataSource.queryResultCache.remove(["posts"]);
 
             return res.status(200).json(post);
         } catch (error) {
@@ -145,7 +157,11 @@ export class PostController {
                     status: Not('INATIVO')
                 },
                 take: postsPerPage,
-                skip: postsPerPage * (page - 1)
+                skip: postsPerPage * (page - 1),
+                cache: {
+                    id: "posts",
+                    milliseconds: 120000
+                }
             })
 
             //contar total de registros
@@ -154,6 +170,10 @@ export class PostController {
                     titulo: ILike(`%${titulo}%`),
                     subtitulo: ILike(`%${subtitulo}%`),
                     conteudo: ILike(`%${conteudo}%`)
+                },
+                cache: {
+                    id: "posts",
+                    milliseconds: 120000
                 }
             });
 
@@ -192,7 +212,12 @@ export class PostController {
                     dataAlteracao: "DESC"
                 },
                 take: postsPerPage,
-                skip: postsPerPage * (page - 1)
+                skip: postsPerPage * (page - 1),
+                where: { status: Not('INATIVO') },
+                cache: {
+                    id: "posts",
+                    milliseconds: 120000
+                }
             })
             const totalElements = await repoPost.count();
             const totalPages = Math.ceil(totalElements / postsPerPage);
@@ -233,6 +258,10 @@ export class PostController {
 
             post.status = 'INATIVO';
 
+            await repoPost.save(post);
+
+            await AppDataSource.queryResultCache.remove(["posts"]);
+
             return res.status(200).json({
                 message: 'Post deletado com sucesso!',
             });
@@ -250,7 +279,11 @@ export class PostController {
 
             const post = await repoPost.findOne({
                 where: { slug: slug },
-                relations: ["categoria", "menu"]
+                relations: ["categoria", "menu"],
+                cache: {
+                    id: "posts",
+                    milliseconds: 120000
+                }
             });
 
             if (!post) {
