@@ -2,7 +2,7 @@ import express = require('express');
 import cors = require('cors');
 import { routerPost } from './routes/Post.routes';
 import { routesCategoria } from './routes/Categoria.routes';
-import { routesDocumento } from './routes/Documento.router';
+import { routesDocumento } from './routes/Documento.routes';
 import { menuRouter } from './routes/Menu.routes';
 import * as dotenv from 'dotenv';
 import * as path from 'path';

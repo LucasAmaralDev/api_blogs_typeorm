@@ -151,9 +151,7 @@ export class MenuController {
 
             await repoMenu.save(menu);
 
-            return response.status(200).json({
-                message: 'Menu atualizado com sucesso!',
-            });
+            return response.status(200).json(menu);
 
         } catch (error) {
 

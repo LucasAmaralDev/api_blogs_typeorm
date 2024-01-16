@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ILike, Not } from "typeorm";
 import { AppDataSource } from "../database/data-source";
 import { Post } from "../database/entity/Post";
+import { createPost, updatePost } from "../models/Post.model";
 import { CamposAusentes } from "../services/ToolPosts.service";
 
 const repoPost = AppDataSource.getRepository(Post);
@@ -10,38 +11,25 @@ export class PostController {
 
     async create(req: Request, res: Response) {
         try {
-            const { titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioCriacao, dataCriacao, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia, anexo, status } = req.body;
+            const { titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioCriacao, inicioVigencia, fimVigencia, anexo, status } = req.body;
 
-            console.log(req.body)
-
-            if (!titulo || !subtitulo || !conteudo || !autores || !slug || !destaqueOrdem || !usuarioCriacao || !status) {
-                const camposAusentes = CamposAusentes({titulo, subtitulo, conteudo, autores, slug, destaqueOrdem, usuarioCriacao, status});
-                console.log(titulo, subtitulo, conteudo, autores, slug, destaqueOrdem, usuarioCriacao)
+            if (!titulo || !subtitulo || !conteudo || !autores || !slug || !usuarioCriacao || !status) {
+                const camposAusentes = CamposAusentes({ titulo, subtitulo, conteudo, autores, slug, usuarioCriacao, status });
                 return res.status(400).json({ error: 'Campos Ausentes: ' + camposAusentes });
             }
 
-            const post = new Post();
-            post.titulo = titulo;
-            post.subtitulo = subtitulo;
-            post.urlImagemPrincipal = urlImagemPrincipal;
-            post.altUrlImagemPrincipal = altUrlImagemPrincipal;
-            post.legendaUrlImagemPrincipal = legendaUrlImagemPrincipal;
-            post.conteudo = conteudo;
-            post.autores = autores;
-            post.categoria = categoria ?? null;
-            post.menu = menu ?? null;
-            post.tags = tags ?? null;
-            post.slug = slug;
-            post.destaqueOrdem = destaqueOrdem;
-            post.usuarioCriacao = usuarioCriacao;
-            post.dataCriacao = dataCriacao || new Date();
-            post.usuarioAlteracao = usuarioAlteracao || null;
-            post.dataAlteracao = dataAlteracao || null;
-            post.inicioVigencia = inicioVigencia || new Date();
-            post.fimVigencia = fimVigencia ?? null;
-            post.status = status;
-            post.anexo = anexo ?? null;
+            const slugExists = await repoPost.findOne({
+                where: { slug: slug }
+            });
 
+            if (slugExists) {
+                return res.status(400).json({ error: 'Slug já existe' });
+            }
+
+            const post = createPost({
+                titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria,
+                menu, tags, slug, destaqueOrdem, usuarioCriacao, inicioVigencia, fimVigencia, anexo, status
+            });
 
             await repoPost.save(post);
             return res.status(201).json(post);
@@ -98,7 +86,7 @@ export class PostController {
             const { id } = req.params;
 
             const post = await repoPost.findOne({
-                where: { 
+                where: {
                     id: Number(id),
                     status: Not('INATIVO')
                 }
@@ -120,38 +108,13 @@ export class PostController {
     async update(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const { titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia,status, anexo } = req.body;
+            const { titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia, status, anexo } = req.body;
             if (!titulo && !subtitulo && !conteudo && !autores && !slug && !destaqueOrdem && !usuarioAlteracao && !status && !inicioVigencia && !fimVigencia && !anexo && !urlImagemPrincipal && !altUrlImagemPrincipal && !legendaUrlImagemPrincipal && !categoria && !menu && !tags) {
                 return res.status(400).json({ error: 'Pelo menos um campo deve ser preenchido' });
             }
 
-            const post = await repoPost.findOne({
-                where: { id: Number(id) }
-            });
+            const post = await updatePost({ id: Number(id), titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria, menu, tags, slug, destaqueOrdem, usuarioAlteracao, dataAlteracao, inicioVigencia, fimVigencia, anexo, status });
 
-            if (!post) {
-                return res.status(400).json({ error: 'Post não encontrado' });
-            }
-
-            post.titulo = titulo || post.titulo;
-            post.subtitulo = subtitulo || post.subtitulo;
-            post.conteudo = conteudo || post.conteudo;
-            post.autores = autores || post.autores;
-            post.categoria = categoria || post.categoria;
-            post.menu = menu || post.menu;
-            post.tags = tags || post.tags;
-            post.slug = slug || post.slug;
-            post.destaqueOrdem = destaqueOrdem || post.destaqueOrdem;
-            post.usuarioAlteracao = usuarioAlteracao;
-            post.dataAlteracao = dataAlteracao ?? new Date();
-            post.inicioVigencia = inicioVigencia || post.inicioVigencia;
-            post.fimVigencia = fimVigencia || post.fimVigencia;
-            post.anexo = anexo || post.anexo;
-            post.urlImagemPrincipal = urlImagemPrincipal || post.urlImagemPrincipal;
-            post.altUrlImagemPrincipal = altUrlImagemPrincipal || post.altUrlImagemPrincipal;
-            post.legendaUrlImagemPrincipal = legendaUrlImagemPrincipal || post.legendaUrlImagemPrincipal;
-            post.status = status || post.status;
-            
             await repoPost.save(post);
 
             return res.status(200).json(post);
@@ -291,7 +254,7 @@ export class PostController {
             });
 
             if (!post) {
-                return res.status(400).json({ error: 'Post não encontrado' });
+                return res.status(404).json({ error: 'Post não encontrado' });
             }
 
             return res.status(200).json(post);

@@ -109,9 +109,7 @@ export class CategoriaController {
 
             await repoCategoria.save(categoria);
 
-            return response.status(200).json({
-                message: 'Categoria atualizada com sucesso!',
-            });
+            return response.status(200).json(categoria);
 
         } catch (error) {
 
