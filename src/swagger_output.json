@@ -1,0 +1,443 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Blog Typeorm",
+    "description": "Documentação da API BLOG TYPEORM",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/categoria/create": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/categoria/list": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/cms/categoria": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/cms/categoria/{id}": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/cms/documento": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/menu/create": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/menu/list": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/menu/tree": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/cms/menu": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/cms/menu/{id}": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/post/list": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "description": "Endpoint para listar todos os posts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "postsPerPage",
+            "in": "query",
+            "description": "Número de posts por página",
+            "type": "integer",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts listados com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        }
+      }
+    },
+    "/post/search": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "description": "Endpoint para buscar posts",
+        "parameters": [
+          {
+            "name": "postsPerPage",
+            "in": "query",
+            "description": "Número de posts por página",
+            "type": "integer",
+            "default": 10
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "titulo",
+            "in": "query",
+            "description": "Título do post",
+            "type": "string"
+          },
+          {
+            "name": "subtitulo",
+            "in": "query",
+            "description": "Subtítulo do post",
+            "type": "string"
+          },
+          {
+            "name": "conteudo",
+            "in": "query",
+            "description": "Conteudo do post",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts listados com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        }
+      }
+    },
+    "/post/ultimas-noticias": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "description": "Endpoint para listar as últimas notícias",
+        "parameters": [
+          {
+            "name": "postsPerPage",
+            "in": "query",
+            "description": "Número de posts por página",
+            "type": "integer",
+            "default": 10
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "type": "integer",
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts listados com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        }
+      }
+    },
+    "/post/slug/{slug}": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/cms/post": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/cms/post/{id}": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Post": {
+      "type": "object",
+      "properties": {
+        "posts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "example": "string"
+              },
+              "titulo": {
+                "type": "string",
+                "example": "string"
+              },
+              "subtitulo": {
+                "type": "string",
+                "example": "string"
+              },
+              "urlImagemPrincipal": {
+                "type": "string",
+                "example": "string"
+              },
+              "altUrlImagemPrincipal": {
+                "type": "string",
+                "example": "string"
+              },
+              "legendaUrlImagemPrincipal": {
+                "type": "string",
+                "example": "string"
+              },
+              "conteudo": {
+                "type": "string",
+                "example": "string"
+              },
+              "autores": {
+                "type": "string",
+                "example": "string"
+              },
+              "tags": {
+                "type": "string",
+                "example": "string"
+              },
+              "slug": {
+                "type": "string",
+                "example": "string"
+              },
+              "destaqueOrdem": {
+                "type": "string",
+                "example": "string"
+              },
+              "usuarioCriacao": {
+                "type": "string",
+                "example": "string"
+              },
+              "dataCriacao": {
+                "type": "string",
+                "example": "string"
+              },
+              "usuarioAlteracao": {
+                "type": "string",
+                "example": "string"
+              },
+              "dataAlteracao": {
+                "type": "string",
+                "example": "string"
+              },
+              "anexo": {
+                "type": "string",
+                "example": "string"
+              },
+              "status": {
+                "type": "string",
+                "example": "string"
+              },
+              "inicioVigencia": {
+                "type": "string",
+                "example": "string"
+              },
+              "fimVigencia": {
+                "type": "string",
+                "example": "string"
+              }
+            }
+          }
+        },
+        "page": {
+          "type": "object",
+          "properties": {
+            "size": {
+              "type": "number",
+              "example": 10
+            },
+            "currentPage": {
+              "type": "number",
+              "example": 1
+            },
+            "totalElements": {
+              "type": "number",
+              "example": 100
+            },
+            "totalPages": {
+              "type": "number",
+              "example": 10
+            }
+          }
+        }
+      }
+    }
+  }
+}

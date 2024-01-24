@@ -12,8 +12,8 @@ routesCategoria.get("/categoria/list", categoriaController.list);
 // CMS
 
 routesCategoria.get("/cms/categoria", categoriaController.list);
-routesCategoria.get("/cms/categoria/:id", categoriaController.findById);
 routesCategoria.post("/cms/categoria", categoriaController.create);
+routesCategoria.get("/cms/categoria/:id", categoriaController.findById);
 routesCategoria.put("/cms/categoria/:id", categoriaController.update);
 routesCategoria.delete("/cms/categoria/:id", categoriaController.delete);
 

@@ -1,0 +1,2114 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API BLOG TYPEORM",
+        "description": "Descrição da API BLOG TYPEORM",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/post/list": {
+            "get": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Listar todos os posts",
+                "description": "Devolve uma lista de posts paginados e ordenados, por padrão ele devolve 10 posts por paginas e ordena pela data de criação",
+                "operationId": "list",
+                "parameters": [
+                    {
+                        "name": "postsPerPage",
+                        "in": "query",
+                        "description": "Quantidade de posts por pagina, por padrão se não for informado ele devolve 10 posts por pagina",
+                        "default": 10,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero da pagina, por padrão se não for informado ele devolve a primeira pagina",
+                        "required": false,
+                        "default": 1,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "posts": {
+                                            "type": "array",
+                                            "items": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "titulo": {
+                                                    "type": "string"
+                                                },
+                                                "subtitulo": {
+                                                    "type": "string"
+                                                },
+                                                "urlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "altUrlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "legendaUrlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "conteudo": {
+                                                    "type": "string"
+                                                },
+                                                "autores": {
+                                                    "type": "string"
+                                                },
+                                                "tags": {
+                                                    "type": "string"
+                                                },
+                                                "slug": {
+                                                    "type": "string"
+                                                },
+                                                "destaqueOrdem": {
+                                                    "type": "integer"
+                                                },
+                                                "usuarioCriacao": {
+                                                    "type": "string"
+                                                },
+                                                "dataCriacao": {
+                                                    "type": "string"
+                                                },
+                                                "usuarioAlteracao": {
+                                                    "type": "string"
+                                                },
+                                                "dataAlteracao": {
+                                                    "type": "string"
+                                                },
+                                                "anexo": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string"
+                                                },
+                                                "inicioVigencia": {
+                                                    "type": "string"
+                                                },
+                                                "fimVigencia": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "page": {
+                                            "type": "object",
+                                            "properties": {
+                                                "size": {
+                                                    "type": "integer"
+                                                },
+                                                "currentPage": {
+                                                    "type": "integer"
+                                                },
+                                                "totalElements": {
+                                                    "type": "integer"
+                                                },
+                                                "totalPages": {
+                                                    "type": "integer"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "example": {
+                                        "posts": [
+                                            {
+                                                "id": 71,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>te</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "test-teste-teste-tsete",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-17T22:32:23.099Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": "[{\"tipo\":\"Documento\",\"nome\":\"teste\",\"url\":null,\"alt\":null,\"legenda\":null},{\"tipo\":\"Documento\",\"nome\":\"teste\",\"url\":null,\"alt\":null,\"legenda\":null}]",
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-17T22:32:23.099Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 70,
+                                                "titulo": "Tesete",
+                                                "subtitulo": "Teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>testet</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste-teste-teste-teste-2",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-17T19:09:44.071Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": "{}",
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-17T19:09:44.071Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 69,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "test",
+                                                "tags": "teste",
+                                                "slug": "teste-teste234123",
+                                                "destaqueOrdem": 3,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:44:00.238Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:44:00.238Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 68,
+                                                "titulo": "TEste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "341234",
+                                                "conteudo": "<p>teqfasdf</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste-teste2qwerq",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:25:30.000Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:25:30.000Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 67,
+                                                "titulo": "Teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste",
+                                                "destaqueOrdem": 23,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:24:14.420Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:24:14.420Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 66,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste2",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:17:27.047Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T23:17:27.047Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 65,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>testestete</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste-teste-teste-2131",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:05:08.380Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:05:08.380Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 64,
+                                                "titulo": "Teste",
+                                                "subtitulo": "Teste2",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste-teste-teste-teste23",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:04:21.501Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T23:04:21.501Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 63,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste-teste-teste3",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T22:57:44.088Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T22:57:44.088Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 62,
+                                                "titulo": "Tesete",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste32",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T22:52:16.649Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T22:52:16.649Z",
+                                                "fimVigencia": null
+                                            }
+                                        ],
+                                        "page": {
+                                            "size": 10,
+                                            "currentPage": 1,
+                                            "totalElements": 41,
+                                            "totalPages": 5
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/post/search": {
+            "get": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Pesquisar posts",
+                "description": "Pesquisa posts por titulo, subtitulo, conteudo, autores, tags e slug",
+                "operationId": "search",
+                "parameters": [
+                    {
+                        "name": "postsPerPage",
+                        "in": "query",
+                        "description": "Quantidade de posts por pagina, por padrão se não for informado ele devolve 10 posts por pagina",
+                        "default": 10,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero da pagina, por padrão se não for informado ele devolve a primeira pagina",
+                        "required": false,
+                        "default": 1,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "titulo",
+                        "in": "query",
+                        "description": "Titulo do post",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "subtitulo",
+                        "in": "query",
+                        "description": "Subtitulo do post",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "conteudo",
+                        "in": "query",
+                        "description": "Conteudo do post",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "posts": {
+                                            "type": "array",
+                                            "items": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "titulo": {
+                                                    "type": "string"
+                                                },
+                                                "subtitulo": {
+                                                    "type": "string"
+                                                },
+                                                "urlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "altUrlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "legendaUrlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "conteudo": {
+                                                    "type": "string"
+                                                },
+                                                "autores": {
+                                                    "type": "string"
+                                                },
+                                                "tags": {
+                                                    "type": "string"
+                                                },
+                                                "slug": {
+                                                    "type": "string"
+                                                },
+                                                "destaqueOrdem": {
+                                                    "type": "integer"
+                                                },
+                                                "usuarioCriacao": {
+                                                    "type": "string"
+                                                },
+                                                "dataCriacao": {
+                                                    "type": "string"
+                                                },
+                                                "usuarioAlteracao": {
+                                                    "type": "string"
+                                                },
+                                                "dataAlteracao": {
+                                                    "type": "string"
+                                                },
+                                                "anexo": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string"
+                                                },
+                                                "inicioVigencia": {
+                                                    "type": "string"
+                                                },
+                                                "fimVigencia": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "page": {
+                                            "type": "object",
+                                            "properties": {
+                                                "size": {
+                                                    "type": "integer"
+                                                },
+                                                "currentPage": {
+                                                    "type": "integer"
+                                                },
+                                                "totalElements": {
+                                                    "type": "integer"
+                                                },
+                                                "totalPages": {
+                                                    "type": "integer"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "example": {
+                                        "posts": [
+                                            {
+                                                "id": 71,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>te</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "test-teste-teste-tsete",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-17T22:32:23.099Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": "[{\"tipo\":\"Documento\",\"nome\":\"teste\",\"url\":null,\"alt\":null,\"legenda\":null},{\"tipo\":\"Documento\",\"nome\":\"teste\",\"url\":null,\"alt\":null,\"legenda\":null}]",
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-17T22:32:23.099Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 70,
+                                                "titulo": "Tesete",
+                                                "subtitulo": "Teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>testet</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste-teste-teste-teste-2",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-17T19:09:44.071Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": "{}",
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-17T19:09:44.071Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 69,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "test",
+                                                "tags": "teste",
+                                                "slug": "teste-teste234123",
+                                                "destaqueOrdem": 3,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:44:00.238Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:44:00.238Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 68,
+                                                "titulo": "TEste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "341234",
+                                                "conteudo": "<p>teqfasdf</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste-teste2qwerq",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:25:30.000Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:25:30.000Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 67,
+                                                "titulo": "Teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste",
+                                                "destaqueOrdem": 23,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:24:14.420Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:24:14.420Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 66,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste2",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:17:27.047Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T23:17:27.047Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 65,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>testestete</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste-teste-teste-2131",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:05:08.380Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:05:08.380Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 64,
+                                                "titulo": "Teste",
+                                                "subtitulo": "Teste2",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste-teste-teste-teste23",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:04:21.501Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T23:04:21.501Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 63,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste-teste-teste3",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T22:57:44.088Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T22:57:44.088Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 62,
+                                                "titulo": "Tesete",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste32",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T22:52:16.649Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T22:52:16.649Z",
+                                                "fimVigencia": null
+                                            }
+                                        ],
+                                        "page": {
+                                            "size": 10,
+                                            "currentPage": 1,
+                                            "totalElements": 41,
+                                            "totalPages": 5
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/post/ultimas-noticias": {
+            "get": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Retorna as ultimas noticias",
+                "description": " Retorna as ultimas noticias, por padrão ele retorna as 10 ultimas noticias",
+                "operationId": "ultimas-noticias",
+                "parameters": [
+                    {
+                        "name": "postsPerPage",
+                        "in": "query",
+                        "description": "Quantidade de posts por pagina, por padrão se não for informado ele devolve 10 posts por pagina",
+                        "default": 10,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero da pagina, por padrão se não for informado ele devolve a primeira pagina",
+                        "required": false,
+                        "default": 1,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "posts": {
+                                            "type": "array",
+                                            "items": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "titulo": {
+                                                    "type": "string"
+                                                },
+                                                "subtitulo": {
+                                                    "type": "string"
+                                                },
+                                                "urlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "altUrlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "legendaUrlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "conteudo": {
+                                                    "type": "string"
+                                                },
+                                                "autores": {
+                                                    "type": "string"
+                                                },
+                                                "tags": {
+                                                    "type": "string"
+                                                },
+                                                "slug": {
+                                                    "type": "string"
+                                                },
+                                                "destaqueOrdem": {
+                                                    "type": "integer"
+                                                },
+                                                "usuarioCriacao": {
+                                                    "type": "string"
+                                                },
+                                                "dataCriacao": {
+                                                    "type": "string"
+                                                },
+                                                "usuarioAlteracao": {
+                                                    "type": "string"
+                                                },
+                                                "dataAlteracao": {
+                                                    "type": "string"
+                                                },
+                                                "anexo": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string"
+                                                },
+                                                "inicioVigencia": {
+                                                    "type": "string"
+                                                },
+                                                "fimVigencia": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "page": {
+                                            "type": "object",
+                                            "properties": {
+                                                "size": {
+                                                    "type": "integer"
+                                                },
+                                                "currentPage": {
+                                                    "type": "integer"
+                                                },
+                                                "totalElements": {
+                                                    "type": "integer"
+                                                },
+                                                "totalPages": {
+                                                    "type": "integer"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "example": {
+                                        "posts": [
+                                            {
+                                                "id": 71,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>te</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "test-teste-teste-tsete",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-17T22:32:23.099Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": "[{\"tipo\":\"Documento\",\"nome\":\"teste\",\"url\":null,\"alt\":null,\"legenda\":null},{\"tipo\":\"Documento\",\"nome\":\"teste\",\"url\":null,\"alt\":null,\"legenda\":null}]",
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-17T22:32:23.099Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 70,
+                                                "titulo": "Tesete",
+                                                "subtitulo": "Teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>testet</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste-teste-teste-teste-2",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-17T19:09:44.071Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": "{}",
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-17T19:09:44.071Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 69,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "test",
+                                                "tags": "teste",
+                                                "slug": "teste-teste234123",
+                                                "destaqueOrdem": 3,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:44:00.238Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:44:00.238Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 68,
+                                                "titulo": "TEste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "341234",
+                                                "conteudo": "<p>teqfasdf</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste-teste2qwerq",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:25:30.000Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:25:30.000Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 67,
+                                                "titulo": "Teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste",
+                                                "destaqueOrdem": 23,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:24:14.420Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:24:14.420Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 66,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste2",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:17:27.047Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T23:17:27.047Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 65,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>testestete</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste-teste-teste-2131",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:05:08.380Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:05:08.380Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 64,
+                                                "titulo": "Teste",
+                                                "subtitulo": "Teste2",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste-teste-teste-teste23",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:04:21.501Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T23:04:21.501Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 63,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste-teste-teste3",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T22:57:44.088Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T22:57:44.088Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 62,
+                                                "titulo": "Tesete",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste32",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T22:52:16.649Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T22:52:16.649Z",
+                                                "fimVigencia": null
+                                            }
+                                        ],
+                                        "page": {
+                                            "size": 10,
+                                            "currentPage": 1,
+                                            "totalElements": 41,
+                                            "totalPages": 5
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/post/slug/{slug}": {
+            "get": {
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Retorna um post pelo slug",
+                "description": "Retorna um post pelo slug",
+                "operationId": "slug",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug do post",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "titulo": {
+                                        "type": "string"
+                                    },
+                                    "subtitulo": {
+                                        "type": "string"
+                                    },
+                                    "urlImagemPrincipal": {
+                                        "type": "string"
+                                    },
+                                    "altUrlImagemPrincipal": {
+                                        "type": "string"
+                                    },
+                                    "legendaUrlImagemPrincipal": {
+                                        "type": "string"
+                                    },
+                                    "conteudo": {
+                                        "type": "string"
+                                    },
+                                    "autores": {
+                                        "type": "string"
+                                    },
+                                    "tags": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "destaqueOrdem": {
+                                        "type": "integer"
+                                    },
+                                    "usuarioCriacao": {
+                                        "type": "string"
+                                    },
+                                    "dataCriacao": {
+                                        "type": "string"
+                                    },
+                                    "usuarioAlteracao": {
+                                        "type": "string"
+                                    },
+                                    "dataAlteracao": {
+                                        "type": "string"
+                                    },
+                                    "anexo": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "inicioVigencia": {
+                                        "type": "string"
+                                    },
+                                    "fimVigencia": {
+                                        "type": "string"
+                                    },
+                                    "categoria": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "titulo": {
+                                                "type": "string"
+                                            },
+                                            "subtitulo": {
+                                                "type": "string"
+                                            },
+                                            "usuarioCriacao": {
+                                                "type": "string"
+                                            },
+                                            "dataCriacao": {
+                                                "type": "string"
+                                            },
+                                            "usuarioAlteracao": {
+                                                "type": "string"
+                                            },
+                                            "dataAlteracao": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "menu": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "example": {
+                                    "id": 20,
+                                    "titulo": "MT apresenta instrumentos de transparência e combate à corrupção do Estado à Transparência Internacional",
+                                    "subtitulo": "Resultados objetivos atraíram a atenção da Transparência Internacional no Brasil",
+                                    "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                    "altUrlImagemPrincipal": null,
+                                    "legendaUrlImagemPrincipal": null,
+                                    "conteudo": "O governador Mauro Mendes e o secretário controlador-geral do Estado, Paulo Farias, receberam, na última semana, o diretor-executivo da Transparência Internacional no Brasil, Bruno Brandão. A reunião teve como objetivo apresentar os instrumentos de transparência e combate à corrupção adotados pelo Governo de Mato Grosso, que atraíram a atenção da organização internacional devido aos resultados positivos obtidos na aplicação da Lei Anticorrupção e recuperação de valores desviados.Mauro Mendes destacou a importância do comprometimento do Estado com a governança, transparência e integridade.\"Estamos empenhados em fortalecer cada vez mais as práticas de transparência e combate à corrupção em Mato Grosso. Receber a visita da Transparência Internacional é um reconhecimento do nosso trabalho e uma oportunidade de compartilhar experiências e aprender com as melhores práticas internacionais na construção de uma gestão pública eficiente, ética e comprometida com o bem-estar da população\", afirmou o governador. ",
+                                    "autores": "Ligiani Silveira | CGE-MT",
+                                    "tags": "string",
+                                    "slug": "mt-apresenta-instrumentos-de-transparência-e-combate-à-corrupção-do-estado-à-transparência-internacional",
+                                    "destaqueOrdem": 1,
+                                    "usuarioCriacao": "Jonathan",
+                                    "dataCriacao": "2024-01-10T21:32:28.643Z",
+                                    "usuarioAlteracao": null,
+                                    "dataAlteracao": null,
+                                    "anexo": null,
+                                    "status": null,
+                                    "inicioVigencia": "2024-01-10T21:32:28.643Z",
+                                    "fimVigencia": null,
+                                    "categoria": {
+                                        "id": 5,
+                                        "titulo": "Referência",
+                                        "subtitulo": "A CGE é Referência",
+                                        "usuarioCriacao": "Jonathan",
+                                        "dataCriacao": "2024-01-10T21:19:12.489Z",
+                                        "usuarioAlteracao": null,
+                                        "dataAlteracao": null
+                                    },
+                                    "menu": null
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/menu/create": {
+            "post": {
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "Cria um menu",
+                "description": "Cria um menu",
+                "operationId": "create",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string"
+                                    },
+                                    "subtitulo": {
+                                        "type": "string"
+                                    },
+                                    "principal": {
+                                        "type": "boolean"
+                                    },
+                                    "subMenu": {
+                                        "type": "integer"
+                                    },
+                                    "usuarioCriacao": {
+                                        "type": "string"
+                                    },
+                                    "dataCriacao": {
+                                        "type": "string"
+                                    },
+                                    "destaqueOrdem": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "example": {
+                                    "titulo": "teste",
+                                    "subtitulo": "teste",
+                                    "principal": true,
+                                    "subMenu": 1,
+                                    "usuarioCriacao": "Jonathan",
+                                    "dataCriacao": "2024-01-10T21:32:28.643Z",
+                                    "destaqueOrdem": 1
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/menu/list": {
+            "get": {
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "Retorna todos os menus",
+                "description": "Retorna todos os menus",
+                "operationId": "list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "titulo": {
+                                                "type": "string"
+                                            },
+                                            "subtitulo": {
+                                                "type": "string"
+                                            },
+                                            "principal": {
+                                                "type": "boolean"
+                                            },
+                                            "subMenu": {
+                                                "type": "integer"
+                                            },
+                                            "usuarioCriacao": {
+                                                "type": "string"
+                                            },
+                                            "dataCriacao": {
+                                                "type": "string"
+                                            },
+                                            "usuarioAlteracao": {
+                                                "type": "string"
+                                            },
+                                            "dataAlteracao": {
+                                                "type": "string"
+                                            },
+                                            "destaqueOrdem": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "example": {
+                                            "id": 1,
+                                            "titulo": "teste",
+                                            "subtitulo": "teste",
+                                            "principal": true,
+                                            "subMenu": 1,
+                                            "usuarioCriacao": "Jonathan",
+                                            "dataCriacao": "2024-01-10T21:32:28.643Z",
+                                            "usuarioAlteracao": null,
+                                            "dataAlteracao": null,
+                                            "destaqueOrdem": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/menu/tree": {
+            "get": {
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "Retorna a arvore de menus",
+                "description": "Retorna a arvore de menus",
+                "operationId": "tree",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "titulo": {
+                                                "type": "string"
+                                            },
+                                            "subtitulo": {
+                                                "type": "string"
+                                            },
+                                            "subMenu": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "example": [
+                                            {
+                                                "id": 66,
+                                                "titulo": "Fale Cidadão",
+                                                "subtitulo": "Página do Fale Cidadão",
+                                                "subMenu": []
+                                            },
+                                            {
+                                                "id": 19,
+                                                "titulo": "Institucional",
+                                                "subtitulo": "Página institucional da CGE",
+                                                "subMenu": [
+                                                    {
+                                                        "id": 20,
+                                                        "titulo": "História",
+                                                        "subtitulo": "Página da História da CGE",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 21,
+                                                        "titulo": "Identidade",
+                                                        "subtitulo": "Página da Identidade",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 22,
+                                                        "titulo": "Estrutura",
+                                                        "subtitulo": "Página da Estrutura",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 23,
+                                                        "titulo": "Legislação",
+                                                        "subtitulo": "Página da Legislação",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 24,
+                                                        "titulo": "Controlador-Geral",
+                                                        "subtitulo": "Página do Controlador Geral",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 25,
+                                                        "titulo": "Conselho",
+                                                        "subtitulo": "Página do Conselho",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 26,
+                                                        "titulo": "Ética",
+                                                        "subtitulo": "Página de Ética",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 27,
+                                                        "titulo": "Intranet",
+                                                        "subtitulo": "Página da Intranet CGE",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 28,
+                                                        "titulo": "Gestão por Processos",
+                                                        "subtitulo": "Página de Gestão por Processos",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 29,
+                                                        "titulo": "Balanço CGE",
+                                                        "subtitulo": "Página do balanço CGE",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 30,
+                                                        "titulo": "Perguntas Frequentes",
+                                                        "subtitulo": "Página das Perguntas Frequentes",
+                                                        "subMenu": []
+                                                    },
+                                                    {
+                                                        "id": 31,
+                                                        "titulo": "Gestão por competências",
+                                                        "subtitulo": "Página da Gestão por Compoetência",
+                                                        "subMenu": []
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/categoria/create": {
+            "post": {
+                "tags": [
+                    "Categoria"
+                ],
+                "summary": "Cria uma categoria",
+                "description": "Cria uma categoria",
+                "operationId": "create",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string"
+                                    },
+                                    "subtitulo": {
+                                        "type": "string"
+                                    },
+                                    "usuarioCriacao": {
+                                        "type": "string"
+                                    },
+                                    "dataCriacao": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "titulo": "teste",
+                                    "subtitulo": "teste",
+                                    "usuarioCriacao": "Jonathan",
+                                    "dataCriacao": "2024-01-10T21:32:28.643Z"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "titulo": {
+                                        "type": "string"
+                                    },
+                                    "subtitulo": {
+                                        "type": "string"
+                                    },
+                                    "usuarioCriacao": {
+                                        "type": "string"
+                                    },
+                                    "dataCriacao": {
+                                        "type": "string"
+                                    },
+                                    "usuarioAlteracao": {
+                                        "type": "string"
+                                    },
+                                    "dataAlteracao": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "id": 1,
+                                    "titulo": "teste",
+                                    "subtitulo": "teste",
+                                    "usuarioCriacao": "Jonathan",
+                                    "dataCriacao": "2024-01-10T21:32:28.643Z",
+                                    "usuarioAlteracao": null,
+                                    "dataAlteracao": null
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/categoria/list": {
+            "get": {
+                "tags": [
+                    "Categoria"
+                ],
+                "summary": "Retorna todas as categorias",
+                "description": "Retorna todas as categorias",
+                "operationId": "list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "titulo": {
+                                                "type": "string"
+                                            },
+                                            "subtitulo": {
+                                                "type": "string"
+                                            },
+                                            "usuarioCriacao": {
+                                                "type": "string"
+                                            },
+                                            "dataCriacao": {
+                                                "type": "string"
+                                            },
+                                            "usuarioAlteracao": {
+                                                "type": "string"
+                                            },
+                                            "dataAlteracao": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "example": {
+                                            "id": 1,
+                                            "titulo": "teste",
+                                            "subtitulo": "teste",
+                                            "usuarioCriacao": "Jonathan",
+                                            "dataCriacao": "2024-01-10T21:32:28.643Z",
+                                            "usuarioAlteracao": null,
+                                            "dataAlteracao": null
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/post": {
+            "get": {
+                "tags": [
+                    "CMS POST"
+                ],
+                "summary": "Retorna todos os posts",
+                "description": "Retorna todos os posts",
+                "operationId": "cms-post",
+                "parameters": [
+                    {
+                        "name": "postsPerPage",
+                        "in": "query",
+                        "description": "Quantidade de posts por pagina, por padrão se não for informado ele devolve 10 posts por pagina",
+                        "default": 10,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero da pagina, por padrão se não for informado ele devolve a primeira pagina",
+                        "required": false,
+                        "default": 1,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "posts": {
+                                            "type": "array",
+                                            "items": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "titulo": {
+                                                    "type": "string"
+                                                },
+                                                "subtitulo": {
+                                                    "type": "string"
+                                                },
+                                                "urlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "altUrlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "legendaUrlImagemPrincipal": {
+                                                    "type": "string"
+                                                },
+                                                "conteudo": {
+                                                    "type": "string"
+                                                },
+                                                "autores": {
+                                                    "type": "string"
+                                                },
+                                                "tags": {
+                                                    "type": "string"
+                                                },
+                                                "slug": {
+                                                    "type": "string"
+                                                },
+                                                "destaqueOrdem": {
+                                                    "type": "integer"
+                                                },
+                                                "usuarioCriacao": {
+                                                    "type": "string"
+                                                },
+                                                "dataCriacao": {
+                                                    "type": "string"
+                                                },
+                                                "usuarioAlteracao": {
+                                                    "type": "string"
+                                                },
+                                                "dataAlteracao": {
+                                                    "type": "string"
+                                                },
+                                                "anexo": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string"
+                                                },
+                                                "inicioVigencia": {
+                                                    "type": "string"
+                                                },
+                                                "fimVigencia": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "page": {
+                                            "type": "object",
+                                            "properties": {
+                                                "size": {
+                                                    "type": "integer"
+                                                },
+                                                "currentPage": {
+                                                    "type": "integer"
+                                                },
+                                                "totalElements": {
+                                                    "type": "integer"
+                                                },
+                                                "totalPages": {
+                                                    "type": "integer"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "example": {
+                                        "posts": [
+                                            {
+                                                "id": 65,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>testestete</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste-teste-teste-2131",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:05:08.380Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "RASCUNHO",
+                                                "inicioVigencia": "2024-01-16T23:05:08.380Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 64,
+                                                "titulo": "Teste",
+                                                "subtitulo": "Teste2",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": null,
+                                                "slug": "teste-teste-teste-teste23",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T23:04:21.501Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T23:04:21.501Z",
+                                                "fimVigencia": null
+                                            },
+                                            {
+                                                "id": 63,
+                                                "titulo": "teste",
+                                                "subtitulo": "teste",
+                                                "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                                "altUrlImagemPrincipal": "teste",
+                                                "legendaUrlImagemPrincipal": "teste",
+                                                "conteudo": "<p>teste</p>",
+                                                "autores": "teste",
+                                                "tags": "teste",
+                                                "slug": "teste-teste-teste-teste3",
+                                                "destaqueOrdem": 2,
+                                                "usuarioCriacao": "teste",
+                                                "dataCriacao": "2024-01-16T22:57:44.088Z",
+                                                "usuarioAlteracao": null,
+                                                "dataAlteracao": null,
+                                                "anexo": null,
+                                                "status": "PUBLICADO",
+                                                "inicioVigencia": "2024-01-16T22:57:44.088Z",
+                                                "fimVigencia": null
+                                            }
+                                        ],
+                                        "page": {
+                                            "size": "3",
+                                            "currentPage": "3",
+                                            "totalElements": 41,
+                                            "totalPages": 14
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cria um novo post",
+                "description": "Cria um post",
+                "operationId": "cms-post-post",
+                "tags": [
+                    "CMS POST"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string"
+                                    },
+                                    "subtitulo": {
+                                        "type": "string"
+                                    },
+                                    "urlImagemPrincipal": {
+                                        "type": "string"
+                                    },
+                                    "altUrlImagemPrincipal": {
+                                        "type": "string"
+                                    },
+                                    "legendaUrlImagemPrincipal": {
+                                        "type": "string"
+                                    },
+                                    "conteudo": {
+                                        "type": "string"
+                                    },
+                                    "autores": {
+                                        "type": "string"
+                                    },
+                                    "categoria": {
+                                        "type": "integer"
+                                    },
+                                    "menu": {
+                                        "type": "integer"
+                                    },
+                                    "tags": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "destaqueOrdem": {
+                                        "type": "integer"
+                                    },
+                                    "usuarioCriacao": {
+                                        "type": "string"
+                                    },
+                                    "inicioVigencia": {
+                                        "type": "string"
+                                    },
+                                    "fimVigencia": {
+                                        "type": "string"
+                                    },
+                                    "anexo": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "titulo": "teste",
+                                    "subtitulo": "teste",
+                                    "urlImagemPrincipal": "teste",
+                                    "altUrlImagemPrincipal": "teste",
+                                    "legendaUrlImagemPrincipal": "teste",
+                                    "conteudo": "teste",
+                                    "autores": "teste",
+                                    "categoria": 1,
+                                    "menu": 1,
+                                    "tags": "teste",
+                                    "slug": "teste",
+                                    "destaqueOrdem": 1,
+                                    "usuarioCriacao": "Jonathan",
+                                    "inicioVigencia": "2024-01-10T21:32:28.643Z",
+                                    "fimVigencia": "2024-01-10T21:32:28.643Z",
+                                    "anexo": "teste",
+                                    "status": "teste"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cms/post/{id}": {
+            "get": {
+                "tags": [
+                    "CMS POST"
+                ],
+                "summary": "Retorna um post pelo id",
+                "description": "Retorna um post pelo id",
+                "operationId": "cms-post-id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do post",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "titulo": {
+                                            "type": "string"
+                                        },
+                                        "subtitulo": {
+                                            "type": "string"
+                                        },
+                                        "urlImagemPrincipal": {
+                                            "type": "string"
+                                        },
+                                        "altUrlImagemPrincipal": {
+                                            "type": "string"
+                                        },
+                                        "legendaUrlImagemPrincipal": {
+                                            "type": "string"
+                                        },
+                                        "conteudo": {
+                                            "type": "string"
+                                        },
+                                        "autores": {
+                                            "type": "string"
+                                        },
+                                        "tags": {
+                                            "type": "string"
+                                        },
+                                        "slug": {
+                                            "type": "string"
+                                        },
+                                        "destaqueOrdem": {
+                                            "type": "integer"
+                                        },
+                                        "usuarioCriacao": {
+                                            "type": "string"
+                                        },
+                                        "dataCriacao": {
+                                            "type": "string"
+                                        },
+                                        "usuarioAlteracao": {
+                                            "type": "string"
+                                        },
+                                        "dataAlteracao": {
+                                            "type": "string"
+                                        },
+                                        "anexo": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "inicioVigencia": {
+                                            "type": "string"
+                                        },
+                                        "fimVigencia": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "id": 65,
+                                        "titulo": "teste",
+                                        "subtitulo": "teste",
+                                        "urlImagemPrincipal": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg",
+                                        "altUrlImagemPrincipal": "teste",
+                                        "legendaUrlImagemPrincipal": "teste",
+                                        "conteudo": "<p>testestete</p>",
+                                        "autores": "teste",
+                                        "tags": "teste",
+                                        "slug": "teste-teste-teste-teste-2131",
+                                        "destaqueOrdem": 2,
+                                        "usuarioCriacao": "teste",
+                                        "dataCriacao": "2024-01-16T23:05:08.380Z",
+                                        "usuarioAlteracao": null,
+                                        "dataAlteracao": null,
+                                        "anexo": null,
+                                        "status": "RASCUNHO",
+                                        "inicioVigencia": "2024-01-16T23:05:08.380Z",
+                                        "fimVigencia": null
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Atualiza um post",
+                "description": "Atualiza um post",
+                "operationId": "cms-post-id-put",
+                "tags": [
+                    "CMS POST"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do post",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string"
+                                    },
+                                    "subtitulo": {
+                                        "type": "string"
+                                    },
+                                    "urlImagemPrincipal": {
+                                        "type": "string"
+                                    },
+                                    "altUrlImagemPrincipal": {
+                                        "type": "string"
+                                    },
+                                    "legendaUrlImagemPrincipal": {
+                                        "type": "string"
+                                    },
+                                    "conteudo": {
+                                        "type": "string"
+                                    },
+                                    "autores": {
+                                        "type": "string"
+                                    },
+                                    "categoria": {
+                                        "type": "integer"
+                                    },
+                                    "menu": {
+                                        "type": "integer"
+                                    },
+                                    "tags": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "destaqueOrdem": {
+                                        "type": "integer"
+                                    },
+                                    "usuarioCriacao": {
+                                        "type": "string"
+                                    },
+                                    "inicioVigencia": {
+                                        "type": "string"
+                                    },
+                                    "fimVigencia": {
+                                        "type": "string"
+                                    },
+                                    "anexo": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "titulo": "teste",
+                                    "subtitulo": "teste",
+                                    "urlImagemPrincipal": "teste",
+                                    "altUrlImagemPrincipal": "teste",
+                                    "legendaUrlImagemPrincipal": "teste",
+                                    "conteudo": "teste",
+                                    "autores": "teste",
+                                    "categoria": 1,
+                                    "menu": 1,
+                                    "tags": "teste",
+                                    "slug": "teste",
+                                    "destaqueOrdem": 1,
+                                    "usuarioCriacao": "Jonathan",
+                                    "inicioVigencia": "2024-01-10T21:32:28.643Z",
+                                    "fimVigencia": "2024-01-10T21:32:28.643Z",
+                                    "anexo": "teste",
+                                    "status": "teste"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Post": {
+            "postsPerPage": {
+                "type": "integer",
+                "description": "Quantidade de posts por pagina, por padrão se não for informado ele devolve 10 posts por pagina"
+            },
+            "page": {
+                "type": "integer",
+                "description": "Numero da pagina, por padrão se não for informado ele devolve a primeira pagina"
+            }
+        }
+    }
+}

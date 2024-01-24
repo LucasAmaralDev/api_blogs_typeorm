@@ -5,6 +5,8 @@ import { Post } from "../database/entity/Post";
 import { createPost, updatePost } from "../models/Post.model";
 import { CamposAusentes } from "../services/ToolPosts.service";
 
+const listaCache = ["posts", "ultimasNoticias"];
+
 const repoPost = AppDataSource.getRepository(Post);
 
 export class PostController {
@@ -48,9 +50,10 @@ export class PostController {
 
     async list(req: Request, res: Response) {
         try {
-
             const postsPerPage = (req.query.postsPerPage || 10) as number;
             const page = (req.query.page || 1) as number;
+
+            const cacheId = `posts-${page}-${postsPerPage}`;
 
             const posts = await repoPost.find({
                 where: { status: Not('INATIVO') },
@@ -58,10 +61,12 @@ export class PostController {
                 take: postsPerPage,
                 skip: postsPerPage * (page - 1),
                 cache: {
-                    id: "posts",
+                    id: cacheId,
                     milliseconds: 120000
                 }
             });
+
+            listaCache.push(cacheId);
 
             const totalElements = await repoPost.count();
 
@@ -91,16 +96,20 @@ export class PostController {
         try {
             const { id } = req.params;
 
+            const cacheId = `posts-${id}`;
+
             const post = await repoPost.findOne({
                 where: {
                     id: Number(id),
                     status: Not('INATIVO')
                 },
                 cache: {
-                    id: "posts",
+                    id: cacheId,
                     milliseconds: 120000
                 }
             });
+
+            listaCache.push(cacheId);
 
             if (!post) {
                 return res.status(400).json({ error: 'Post não encontrado' });
@@ -127,7 +136,7 @@ export class PostController {
 
             await repoPost.save(post);
 
-            await AppDataSource.queryResultCache.remove(["posts"]);
+            await AppDataSource.queryResultCache.remove(listaCache);
 
             return res.status(200).json(post);
         } catch (error) {
@@ -148,6 +157,10 @@ export class PostController {
             const subtitulo = (req.query.subtitulo || '') as string;
             const conteudo = (req.query.conteudo || '') as string;
 
+            console.log(titulo, subtitulo, conteudo)
+
+            const cacheId = `posts-${titulo}-${subtitulo}-${conteudo}-${page}-${postsPerPage}`;
+
             const posts = await repoPost.find({
                 order: { dataCriacao: 'DESC' },
                 where: {
@@ -159,10 +172,12 @@ export class PostController {
                 take: postsPerPage,
                 skip: postsPerPage * (page - 1),
                 cache: {
-                    id: "posts",
+                    id: cacheId,
                     milliseconds: 120000
                 }
             })
+
+            listaCache.push(cacheId);
 
             //contar total de registros
             const totalElements = await repoPost.count({
@@ -171,10 +186,6 @@ export class PostController {
                     subtitulo: ILike(`%${subtitulo}%`),
                     conteudo: ILike(`%${conteudo}%`)
                 },
-                cache: {
-                    id: "posts",
-                    milliseconds: 120000
-                }
             });
 
             const totalPages = Math.ceil(totalElements / postsPerPage);
@@ -205,6 +216,7 @@ export class PostController {
         try {
             const postsPerPage = (req.query.postsPerPage || 10) as number;
             const page = (req.query.page || 1) as number;
+            const cacheId = `ultimasNoticias-${page}-${postsPerPage}`;
 
             const posts = await repoPost.find({
                 order: {
@@ -215,12 +227,13 @@ export class PostController {
                 skip: postsPerPage * (page - 1),
                 where: { status: Not('INATIVO') },
                 cache: {
-                    id: "posts",
-                    milliseconds: 120000
+                    id: cacheId,
+                    milliseconds: 12000
                 }
             })
             const totalElements = await repoPost.count();
             const totalPages = Math.ceil(totalElements / postsPerPage);
+            listaCache.push(cacheId);
 
             const response = {
                 posts,
@@ -277,14 +290,18 @@ export class PostController {
         try {
             const { slug } = req.params;
 
+            const cacheId = `posts-${slug}`;
+
             const post = await repoPost.findOne({
                 where: { slug: slug },
                 relations: ["categoria", "menu"],
                 cache: {
-                    id: "posts",
+                    id: cacheId,
                     milliseconds: 120000
                 }
             });
+
+            listaCache.push(cacheId);
 
             if (!post) {
                 return res.status(404).json({ error: 'Post não encontrado' });
