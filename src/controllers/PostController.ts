@@ -99,6 +99,7 @@ export class PostController {
             const cacheId = `posts-${id}`;
 
             const post = await repoPost.findOne({
+                relations: ["categoria", "menu"],
                 where: {
                     id: Number(id),
                     status: Not('INATIVO')
@@ -106,7 +107,7 @@ export class PostController {
                 cache: {
                     id: cacheId,
                     milliseconds: 120000
-                }
+                },
             });
 
             listaCache.push(cacheId);
