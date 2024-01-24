@@ -101,18 +101,166 @@ routerPost.get("/post/ultimas-noticias", (req, res) => {
     }
     
     */
-
     postController.ultimasNoticias(req, res)
-} );
-routerPost.get("/post/slug/:slug", postController.findBySlug);
+});
+
+routerPost.get("/post/slug/:slug", (req, res) => {
+    /*
+    #swagger.tags = ['Post']
+    #swagger.description = 'Endpoint para buscar o post por slug'
+    #swagger.parameters['slug'] = {
+        in: 'path',
+        description: 'Slug do post',
+        type: 'string',
+        default: 'teste'
+    }
+
+    #swagger.responses[200] = {
+        description: 'Post encontrado com sucesso',
+        schema: { 
+            $ref: "#/definitions/Post_Slug"
+         }
+    }
+
+    #swagger.responses[404] = {
+        description: 'Post não encontrado',
+        schema: {
+            error: "Post não encontrado"
+        }
+    }
+    */
+    postController.findBySlug(req, res)
+});
 
 
 // CMS
-routerPost.get("/cms/post", postController.list);
-routerPost.post("/cms/post", postController.create);
-routerPost.get("/cms/post/:id", postController.findById);
-routerPost.put("/cms/post/:id", postController.update);
-routerPost.delete("/cms/post/:id", postController.delete);
+routerPost.get("/cms/post", (req, res) => {
+    /*
+    #swagger.tags = ['CMS Post']
+    #swagger.description = 'Endpoint para listar todos os posts'
+    #swagger.parameters['page'] = {
+        in: 'query',
+        description: 'Número da página',
+        type: 'integer',
+        default: 1
+    } 
+    #swagger.parameters['postsPerPage'] = {
+        in: 'query',
+        description: 'Número de posts por página',
+        type: 'integer',
+        default: 10
+    }
+    
+    
+    #swagger.responses[200] = {
+        description: 'Posts listados com sucesso',
+        schema: { 
+            $ref: "#/definitions/Post"
+         }
+    }
+    */
+    postController.list(req, res)
+});
+routerPost.post("/cms/post", (req, res) => {
+    /* 
+    
+    #swagger.tags = ['CMS Post']
+    #swagger.description = 'Endpoint para criar um post'
+    #swagger.parameters = [
+        {
+            in: 'body',
+            name: 'body',
+            description: 'Dados do post',
+            required: true,
+            schema: {
+                $ref: "#/definitions/Post_Create"
+            }
+        }
+    ]
+    #swagger.responses[200] = {
+        description: 'Post criado com sucesso',
+        schema: { 
+            $ref: "#/definitions/Post_Create_Response"
+         }
+    }
+
+    
+    */
+    postController.create(req, res)
+});
+routerPost.get("/cms/post/:id", (req, res) => {
+    /* 
+    #swagger.tags = ['CMS Post']
+    #swagger.description = 'Endpoint para buscar o post por id'
+    #swagger.parameters['id'] = {
+        in: 'path',
+        description: 'Id do post',
+        type: 'integer'
+    }
+
+    #swagger.responses[200] = {
+        description: 'Post encontrado com sucesso',
+        schema: { 
+            $ref: "#/definitions/Post_Slug"
+         }
+    }
+    
+    */
+    postController.findById(req, res)
+});
+routerPost.put("/cms/post/:id", (req, res) => {
+    /*
+    #swagger.tags = ['CMS Post']
+    #swagger.description = 'Endpoint para atualizar um post'
+    #swagger.parameters['id'] = {
+        in: 'path',
+        description: 'Id do post',
+        type: 'integer'
+    }
+    #swagger.parameters = [
+        {
+            in: 'body',
+            name: 'body',
+            description: 'Dados do post',
+            required: true,
+            schema: {
+                $ref: "#/definitions/Post_Create"
+            }
+        }
+    ]
+    */
+    postController.update(req, res)
+});
+
+routerPost.delete("/cms/post/:id", (req, res) => {
+    /*
+    #swagger.tags = ['CMS Post']
+
+    #swagger.description = 'Endpoint para deletar um post'
+    #swagger.parameters['id'] = {
+        in: 'path',
+        description: 'Id do post',
+        type: 'integer'
+    }
+
+
+    #swagger.responses[200] = {
+        description: 'Post deletado com sucesso',
+        schema: { 
+            "message": "Post deletado com sucesso!"
+         }
+    }
+
+    #swagger.responses[404] = {
+        description: 'Post não encontrado',
+        schema: {
+            error: "Post não encontrado"
+        }
+    }
+
+    */
+    postController.delete(req, res)
+});
 
 
 export { routerPost };

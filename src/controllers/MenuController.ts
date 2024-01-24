@@ -13,7 +13,8 @@ export class MenuController {
         try {
             const { titulo, subtitulo, principal, subMenu, usuarioCriacao, dataCriacao, destaqueOrdem } = request.body;
 
-            if (!titulo || !subtitulo || principal == undefined || !usuarioCriacao || destaqueOrdem) {
+            if (!titulo || !subtitulo || principal == undefined || !usuarioCriacao ) {
+                console.log(request.body)
                 return response.status(400).json({ error: 'Todos os campos são obrigatórios' });
             }
 

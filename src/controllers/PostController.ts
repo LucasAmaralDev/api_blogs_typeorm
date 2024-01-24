@@ -28,6 +28,8 @@ export class PostController {
                 return res.status(400).json({ error: 'Slug já existe' });
             }
 
+
+
             const post = createPost({
                 titulo, subtitulo, urlImagemPrincipal, altUrlImagemPrincipal, legendaUrlImagemPrincipal, conteudo, autores, categoria,
                 menu, tags, slug, destaqueOrdem, usuarioCriacao, inicioVigencia, fimVigencia, anexo, status
@@ -267,7 +269,7 @@ export class PostController {
             });
 
             if (!post) {
-                return res.status(400).json({ error: 'Post não encontrado' });
+                return res.status(404).json({ error: 'Post não encontrado' });
             }
 
             post.status = 'INATIVO';

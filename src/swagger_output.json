@@ -87,40 +87,84 @@
     },
     "/menu/create": {
       "post": {
-        "description": "",
+        "tags": [
+          "Menu"
+        ],
+        "description": "Endpoint para criar um menu",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados do menu",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Menu_Create"
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "201": {
+            "description": "Menu criado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Menu criado com sucesso!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/menu/list": {
       "get": {
-        "description": "",
+        "tags": [
+          "Menu"
+        ],
+        "description": "Endpoint para listar os menus",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Menus listados com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Menu_List"
+            }
           }
         }
       }
     },
     "/menu/tree": {
       "get": {
-        "description": "",
+        "tags": [
+          "Menu"
+        ],
+        "description": "Endpoint para listar os menus em formato de árvore",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Menus listados com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Menu_Tree"
+            }
           }
         }
       }
     },
     "/cms/menu": {
       "get": {
-        "description": "",
+        "tags": [
+          "CMS Menu"
+        ],
+        "description": "Endpoint para listar todos os menus",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Menus listados com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Menu_List"
+            }
           }
         }
       },
@@ -135,10 +179,26 @@
     },
     "/cms/menu/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "CMS Menu"
+        ],
+        "description": "Endpoint para listar um menu",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do menu",
+            "default": 1
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Menu listado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Menu_unico"
+            }
           }
         }
       },
@@ -275,43 +335,149 @@
     },
     "/post/slug/{slug}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Post"
+        ],
+        "description": "Endpoint para buscar o post por slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Slug do post",
+            "default": "teste"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Post encontrado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Post_Slug"
+            }
+          },
+          "404": {
+            "description": "Post não encontrado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Post não encontrado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/cms/post": {
       "get": {
-        "description": "",
+        "tags": [
+          "CMS Post"
+        ],
+        "description": "Endpoint para listar todos os posts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "postsPerPage",
+            "in": "query",
+            "description": "Número de posts por página",
+            "type": "integer",
+            "default": 10
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Posts listados com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
           }
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "CMS Post"
+        ],
+        "description": "Endpoint para criar um post",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados do post",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Post_Create"
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Post criado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Post_Create_Response"
+            }
           }
         }
       }
     },
     "/cms/post/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "CMS Post"
+        ],
+        "description": "Endpoint para buscar o post por id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Id do post"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Post encontrado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Post_Slug"
+            }
           }
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "CMS Post"
+        ],
+        "description": "Endpoint para atualizar um post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Id do post"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados do post",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Post_Create"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
@@ -319,10 +485,49 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "CMS Post"
+        ],
+        "description": "Endpoint para deletar um post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "Id do post"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Post deletado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Post deletado com sucesso!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Post não encontrado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Post não encontrado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -437,6 +642,396 @@
             }
           }
         }
+      }
+    },
+    "Post_Slug": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 56
+        },
+        "titulo": {
+          "type": "string",
+          "example": "teste"
+        },
+        "subtitulo": {
+          "type": "string",
+          "example": "teste"
+        },
+        "urlImagemPrincipal": {
+          "type": "string",
+          "example": "http://minio.desenv.cge.mt.gov.br:9010/porta-cge/cge-apresenta-instrumentos-de-transparencia-e-controle.jpeg"
+        },
+        "altUrlImagemPrincipal": {
+          "type": "string",
+          "example": "teste"
+        },
+        "legendaUrlImagemPrincipal": {
+          "type": "string",
+          "example": "etste"
+        },
+        "conteudo": {
+          "type": "string",
+          "example": "<p>teste</p>"
+        },
+        "autores": {
+          "type": "string",
+          "example": "asdfa"
+        },
+        "tags": {
+          "type": "string",
+          "example": "teste"
+        },
+        "slug": {
+          "type": "string",
+          "example": "teste"
+        },
+        "destaqueOrdem": {
+          "type": "number",
+          "example": 3
+        },
+        "usuarioCriacao": {
+          "type": "string",
+          "example": "afsdf"
+        },
+        "dataCriacao": {
+          "type": "string",
+          "example": "2024-01-16T21:48:15.512Z"
+        },
+        "usuarioAlteracao": {},
+        "dataAlteracao": {},
+        "anexo": {},
+        "status": {
+          "type": "string",
+          "example": "RASCUNHO"
+        },
+        "inicioVigencia": {
+          "type": "string",
+          "example": "2024-01-16T21:48:15.512Z"
+        },
+        "fimVigencia": {},
+        "categoria": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 4
+            },
+            "titulo": {
+              "type": "string",
+              "example": "Categoria 2"
+            },
+            "subtitulo": {
+              "type": "string",
+              "example": "Essa é a segunda categoria"
+            },
+            "usuarioCriacao": {
+              "type": "string",
+              "example": "Lucas Henrique"
+            },
+            "dataCriacao": {
+              "type": "string",
+              "example": "2023-12-28T11:40:30.240Z"
+            },
+            "usuarioAlteracao": {},
+            "dataAlteracao": {}
+          }
+        },
+        "menu": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 62
+            },
+            "titulo": {
+              "type": "string",
+              "example": "Vídeos e Áudios"
+            },
+            "subtitulo": {
+              "type": "string",
+              "example": "Página de Vídeos e Áudios"
+            },
+            "principal": {
+              "type": "boolean",
+              "example": true
+            },
+            "destaqueOrdem": {},
+            "usuarioCriacao": {
+              "type": "string",
+              "example": "Jonathan"
+            },
+            "dataCriacao": {
+              "type": "string",
+              "example": "2024-01-05T21:15:20.365Z"
+            },
+            "usuarioAlteracao": {},
+            "dataAlteracao": {}
+          }
+        }
+      }
+    },
+    "Post_Create": {
+      "type": "object",
+      "properties": {
+        "titulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "subtitulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "urlImagemPrincipal": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "altUrlImagemPrincipal": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "legendaUrlImagemPrincipal": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "conteudo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "autores": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "categoria": {
+          "type": "number",
+          "example": 1
+        },
+        "menu": {
+          "type": "number",
+          "example": 56
+        },
+        "tags": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "slug": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "destaqueOrdem": {
+          "type": "number",
+          "example": 1
+        },
+        "usuarioCriacao": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "anexo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "status": {
+          "type": "string",
+          "example": "swagger-titulo"
+        }
+      }
+    },
+    "Post_Create_Response": {
+      "type": "object",
+      "properties": {
+        "titulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "subtitulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "urlImagemPrincipal": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "altUrlImagemPrincipal": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "legendaUrlImagemPrincipal": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "conteudo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "autores": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "categoria": {
+          "type": "number",
+          "example": 1
+        },
+        "menu": {
+          "type": "number",
+          "example": 56
+        },
+        "tags": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "slug": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "destaqueOrdem": {
+          "type": "number",
+          "example": 1
+        },
+        "usuarioCriacao": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "inicioVigencia": {
+          "type": "string",
+          "example": "2024-01-24T19:55:11.849Z"
+        },
+        "fimVigencia": {},
+        "anexo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "status": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "usuarioAlteracao": {},
+        "dataAlteracao": {},
+        "id": {
+          "type": "number",
+          "example": 72
+        },
+        "dataCriacao": {
+          "type": "string",
+          "example": "2024-01-24T19:55:11.849Z"
+        }
+      }
+    },
+    "Menu_Create": {
+      "type": "object",
+      "properties": {
+        "titulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "subtitulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "principal": {
+          "type": "boolean",
+          "example": true
+        },
+        "destaqueOrdem": {
+          "type": "number",
+          "example": 1
+        },
+        "usuarioCriacao": {
+          "type": "string",
+          "example": "swagger-titulo"
+        }
+      }
+    },
+    "Menu_List": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 55
+          },
+          "titulo": {
+            "type": "string",
+            "example": "Fotos"
+          },
+          "subtitulo": {
+            "type": "string",
+            "example": "Página de Fotos"
+          },
+          "principal": {
+            "type": "boolean",
+            "example": true
+          },
+          "destaqueOrdem": {},
+          "usuarioCriacao": {
+            "type": "string",
+            "example": "Swagger"
+          },
+          "dataCriacao": {
+            "type": "string",
+            "example": "2024-01-05T21:11:47.906Z"
+          },
+          "usuarioAlteracao": {},
+          "dataAlteracao": {}
+        }
+      }
+    },
+    "Menu_Tree": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 66
+          },
+          "titulo": {
+            "type": "string",
+            "example": "Fale Cidadão"
+          },
+          "subtitulo": {
+            "type": "string",
+            "example": "Página do Fale Cidadão"
+          },
+          "subMenu": {
+            "type": "array",
+            "example": [],
+            "items": {}
+          }
+        }
+      }
+    },
+    "Menu_unico": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 60
+        },
+        "titulo": {
+          "type": "string",
+          "example": "Artigos"
+        },
+        "subtitulo": {
+          "type": "string",
+          "example": "Página de Artigos"
+        },
+        "principal": {
+          "type": "boolean",
+          "example": true
+        },
+        "destaqueOrdem": {},
+        "usuarioCriacao": {
+          "type": "string",
+          "example": "Jonathan"
+        },
+        "dataCriacao": {
+          "type": "string",
+          "example": "2024-01-05T21:12:03.400Z"
+        },
+        "usuarioAlteracao": {},
+        "dataAlteracao": {}
       }
     }
   }

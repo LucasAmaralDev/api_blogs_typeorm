@@ -43,7 +43,7 @@ export async function updatePost(dados:PostModel){
     }
 
     Object.keys(dados).forEach((key) => {
-        if (dados[key] !== undefined) {
+        if (dados[key] !== undefined || dados[key] !== null) {
             post[key] = dados[key];
         }
     })
