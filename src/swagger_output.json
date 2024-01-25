@@ -13,74 +13,242 @@
   "paths": {
     "/categoria/create": {
       "post": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Endpoint para criar uma categoria",
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados da categoria",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Categoria_Create"
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "201": {
+            "description": "Categoria criada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Categoria_unico"
+            }
           }
         }
       }
     },
     "/categoria/list": {
       "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Endpoint para listar as categorias",
         "description": "",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Categorias listadas com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Categoria_List"
+            }
           }
         }
       }
     },
     "/cms/categoria": {
       "get": {
+        "tags": [
+          "Categoria CMS"
+        ],
+        "summary": "Endpoint para listar as categorias pelo CMS",
         "description": "",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Categorias listadas com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Categoria_List"
+            }
           }
         }
       },
       "post": {
+        "tags": [
+          "Categoria CMS"
+        ],
+        "summary": "Endpoint para criar uma categoria pelo CMS",
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados da categoria",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Categoria_Create"
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "201": {
+            "description": "Categoria criada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Categoria_unico"
+            }
           }
         }
       }
     },
     "/cms/categoria/{id}": {
       "get": {
+        "tags": [
+          "Categoria CMS"
+        ],
+        "summary": "Endpoint para listar uma categoria pelo CMS",
         "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da categoria"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Categoria listada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Categoria_unico"
+            }
+          },
+          "500": {
+            "description": "Erro ao listar categoria",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Erro ao listar categoria"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Categoria não existe"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
       "put": {
+        "tags": [
+          "Categoria CMS"
+        ],
+        "summary": "Endpoint para atualizar uma categoria pelo CMS",
         "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da categoria"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados da categoria",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Categoria_Update"
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Categoria atualizada com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Categoria_unico"
+            }
           }
         }
       },
       "delete": {
+        "tags": [
+          "Categoria CMS"
+        ],
+        "summary": "Endpoint para deletar uma categoria pelo CMS",
         "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da categoria"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Categoria deletada com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Categoria deletada com sucesso!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/cms/documento": {
       "post": {
+        "tags": [
+          "Documento CMS"
+        ],
+        "summary": "Endpoint para criar um documento pelo CMS",
         "description": "",
+        "parameters": [
+          {
+            "name": "arquivo",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "Arquivo do documento"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "201": {
+            "description": "Documento criado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "arquivo.pdf"
+                },
+                "url": {
+                  "type": "string",
+                  "example": "http://localhost:9000/bucket/arquivo.pdf"
+                },
+                "contentType": {
+                  "type": "string",
+                  "example": "file.mimetype"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -90,7 +258,8 @@
         "tags": [
           "Menu"
         ],
-        "description": "Endpoint para criar um menu",
+        "summary": "Endpoint para criar um menu",
+        "description": "",
         "parameters": [
           {
             "name": "body",
@@ -106,16 +275,7 @@
           "201": {
             "description": "Menu criado com sucesso",
             "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Menu criado com sucesso!"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/Menu_unico"
             }
           }
         }
@@ -126,7 +286,8 @@
         "tags": [
           "Menu"
         ],
-        "description": "Endpoint para listar os menus",
+        "summary": "Endpoint para listar os menus",
+        "description": "",
         "responses": {
           "200": {
             "description": "Menus listados com sucesso",
@@ -142,7 +303,8 @@
         "tags": [
           "Menu"
         ],
-        "description": "Endpoint para listar os menus em formato de árvore",
+        "summary": "Endpoint para listar os menus em formato de árvore",
+        "description": "",
         "responses": {
           "200": {
             "description": "Menus listados com sucesso",
@@ -158,7 +320,8 @@
         "tags": [
           "CMS Menu"
         ],
-        "description": "Endpoint para listar todos os menus",
+        "summary": "Endpoint para listar todos os menus",
+        "description": "",
         "responses": {
           "200": {
             "description": "Menus listados com sucesso",
@@ -169,10 +332,28 @@
         }
       },
       "post": {
+        "tags": [
+          "CMS Menu"
+        ],
+        "summary": "Endpoint para criar um menu",
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados do menu",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Menu_Create"
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "201": {
+            "description": "Menu criado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Menu_unico"
+            }
           }
         }
       }
@@ -182,7 +363,8 @@
         "tags": [
           "CMS Menu"
         ],
-        "description": "Endpoint para listar um menu",
+        "summary": "Endpoint para listar um menu",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -203,18 +385,68 @@
         }
       },
       "put": {
+        "tags": [
+          "CMS Menu"
+        ],
+        "summary": "Endpoint para atualizar um menu",
         "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do menu"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados do menu",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Menu_Update"
+            }
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Menu atualizado com sucesso",
+            "schema": {
+              "$ref": "#/definitions/Menu_unico"
+            }
           }
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "CMS Menu"
+        ],
+        "summary": "Endpoint para deletar um menu",
+        "description": "Atenção! Ao deletar um menu, todos os menus filhos serão deletados também.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do menu"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "Menu deletado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Menu removido com sucesso!"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -939,6 +1171,10 @@
         "usuarioCriacao": {
           "type": "string",
           "example": "swagger-titulo"
+        },
+        "subMenu": {
+          "type": "number",
+          "example": 60
         }
       }
     },
@@ -1032,6 +1268,126 @@
         },
         "usuarioAlteracao": {},
         "dataAlteracao": {}
+      }
+    },
+    "Menu_Update": {
+      "type": "object",
+      "properties": {
+        "titulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "subtitulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "principal": {
+          "type": "boolean",
+          "example": true
+        },
+        "destaqueOrdem": {
+          "type": "number",
+          "example": 1
+        },
+        "usuarioCriacao": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "subMenu": {
+          "type": "number",
+          "example": 60
+        }
+      }
+    },
+    "Categoria_Create": {
+      "type": "object",
+      "properties": {
+        "titulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "subtitulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "usuarioCriacao": {
+          "type": "string",
+          "example": "swagger-titulo"
+        }
+      }
+    },
+    "Categoria_unico": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 5
+        },
+        "titulo": {
+          "type": "string",
+          "example": "Referência"
+        },
+        "subtitulo": {
+          "type": "string",
+          "example": "A CGE é Referência"
+        },
+        "usuarioCriacao": {
+          "type": "string",
+          "example": "Jonathan"
+        },
+        "dataCriacao": {
+          "type": "string",
+          "example": "2024-01-10T21:19:12.489Z"
+        },
+        "usuarioAlteracao": {},
+        "dataAlteracao": {}
+      }
+    },
+    "Categoria_List": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 5
+          },
+          "titulo": {
+            "type": "string",
+            "example": "Referência"
+          },
+          "subtitulo": {
+            "type": "string",
+            "example": "A CGE é Referência"
+          },
+          "usuarioCriacao": {
+            "type": "string",
+            "example": "Jonathan"
+          },
+          "dataCriacao": {
+            "type": "string",
+            "example": "2024-01-10T21:19:12.489Z"
+          },
+          "usuarioAlteracao": {},
+          "dataAlteracao": {}
+        }
+      }
+    },
+    "Categoria_Update": {
+      "type": "object",
+      "properties": {
+        "titulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "subtitulo": {
+          "type": "string",
+          "example": "swagger-titulo"
+        },
+        "usuarioAlteracao": {
+          "type": "string",
+          "example": "swagger-titulo"
+        }
       }
     }
   }

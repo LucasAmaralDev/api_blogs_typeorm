@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import { Categoria } from "../database/entity/Categoria";
 
+const listaCategoriasCache = [];
+
 const repoCategoria = AppDataSource.getRepository(Categoria);
 
 export class CategoriaController {
@@ -9,7 +11,7 @@ export class CategoriaController {
 
         try {
 
-            const { titulo, subtitulo, usuarioCriacao, dataCriacao } = request.body;
+            const { titulo, subtitulo, usuarioCriacao } = request.body;
 
             const categoria = new Categoria();
 
@@ -24,7 +26,7 @@ export class CategoriaController {
             categoria.titulo = titulo;
             categoria.subtitulo = subtitulo;
             categoria.usuarioCriacao = usuarioCriacao;
-            categoria.dataCriacao = dataCriacao ?? new Date();
+            categoria.dataCriacao = new Date();
 
             await repoCategoria.save(categoria);
 
@@ -45,12 +47,15 @@ export class CategoriaController {
 
         try {
 
+            const cacheId = 'categoriasList';
             const categorias = await repoCategoria.find({
                 cache: {
-                    id: 'categorias',
+                    id: cacheId,
                     milliseconds: 600000
                 }
             });
+
+            listaCategoriasCache.push(cacheId);
             return response.status(200).json(categorias);
 
         } catch (error) {
@@ -67,18 +72,24 @@ export class CategoriaController {
 
             const { id } = request.params;
 
+            const cacheId = `categoria-${id}`;
+
             const categoria = await repoCategoria.findOne({
-                where: { id: Number(id) },
+                where: { id: (id as any) },
                 cache: {
-                    id: 'categoria',
+                    id: cacheId,
                     milliseconds: 600000
                 }
             });
+            listaCategoriasCache.push(cacheId);
+
+            if (!categoria) {
+                throw new Error('Categoria não existe');
+            }
 
             return response.status(200).json(categoria);
 
         } catch (error) {
-
             
 
             return response.status(500).json({
@@ -95,7 +106,7 @@ export class CategoriaController {
 
             const { id } = request.params;
 
-            const { titulo, subtitulo, usuarioAlteracao, dataAlteracao } = request.body;
+            const { titulo, subtitulo, usuarioAlteracao } = request.body;
 
             if (!titulo && !subtitulo && !usuarioAlteracao) {
                 throw new Error('Pelo menos um campo deve ser preenchido');
@@ -112,7 +123,7 @@ export class CategoriaController {
             categoria.titulo = titulo;
             categoria.subtitulo = subtitulo;
             categoria.usuarioAlteracao = usuarioAlteracao;
-            categoria.dataAlteracao = dataAlteracao ?? new Date();
+            categoria.dataAlteracao = new Date();
 
             await repoCategoria.save(categoria);
 

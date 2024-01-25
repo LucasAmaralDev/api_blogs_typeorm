@@ -129,6 +129,7 @@ const doc = {
             principal: true,
             destaqueOrdem: 1,
             usuarioCriacao: "swagger-titulo",
+            subMenu: 60,
         },
         Menu_List: [{
             "id": 56,
@@ -171,7 +172,43 @@ const doc = {
             "dataCriacao": "2024-01-05T21:12:03.400Z",
             "usuarioAlteracao": null,
             "dataAlteracao": null
-        }
+        },
+        Menu_Update: {
+            titulo: "swagger-titulo",
+            subtitulo: "swagger-titulo",
+            principal: true,
+            destaqueOrdem: 1,
+            usuarioCriacao: "swagger-titulo",
+            subMenu: 60,
+        },
+        Categoria_Create: {
+            titulo: "swagger-titulo",
+            subtitulo: "swagger-titulo",
+            usuarioCriacao: "swagger-titulo",
+        },
+        Categoria_unico: {
+            "id": 5,
+            "titulo": "Referência",
+            "subtitulo": "A CGE é Referência",
+            "usuarioCriacao": "Jonathan",
+            "dataCriacao": "2024-01-10T21:19:12.489Z",
+            "usuarioAlteracao": null,
+            "dataAlteracao": null
+        },
+        Categoria_List: [{
+            "id": 5,
+            "titulo": "Referência",
+            "subtitulo": "A CGE é Referência",
+            "usuarioCriacao": "Jonathan",
+            "dataCriacao": "2024-01-10T21:19:12.489Z",
+            "usuarioAlteracao": null,
+            "dataAlteracao": null
+        }],
+        Categoria_Update: {
+            titulo: "swagger-titulo",
+            subtitulo: "swagger-titulo",
+            usuarioAlteracao: "swagger-titulo",
+        },
     }
 };
 

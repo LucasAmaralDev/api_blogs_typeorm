@@ -47,9 +47,7 @@ export class MenuController {
 
             await repoMenu.save(menu);
 
-            return response.status(201).json({
-                message: 'Menu criado com sucesso!',
-            });
+            return response.status(201).json(menu);
 
         } catch (error) {
 
