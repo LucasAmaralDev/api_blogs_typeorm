@@ -70,7 +70,9 @@ export class PostController {
 
             listaCache.push(cacheId);
 
-            const totalElements = await repoPost.count();
+            const totalElements = await repoPost.count({
+                where: { status: Not('INATIVO') }
+            });
 
             const totalPages = Math.ceil(totalElements / postsPerPage);
 
