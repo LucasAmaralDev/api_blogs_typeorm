@@ -49,10 +49,10 @@ export class CategoriaController {
 
             const cacheId = 'categoriasList';
             const categorias = await repoCategoria.find({
-                cache: {
-                    id: cacheId,
-                    milliseconds: 600000
-                }
+                // cache: {
+                //     id: cacheId,
+                //     milliseconds: 600000
+                // }
             });
 
             listaCategoriasCache.push(cacheId);

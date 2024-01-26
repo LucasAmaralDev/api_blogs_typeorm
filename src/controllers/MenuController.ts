@@ -83,11 +83,12 @@ export class MenuController {
 
             const { id } = request.params;
             const menu = await repoMenu.findOne({ 
+                relations: ["subMenu"],
                 where: { id: Number(id)},
-                cache: {
-                    id: 'menu',
-                    milliseconds: 600000
-                }
+                // cache: {
+                //     id: 'menu',
+                //     milliseconds: 600000
+                // }
             });
 
             return response.status(200).json(menu);
